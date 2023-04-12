@@ -3,8 +3,10 @@ package datn.qlkt.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Columns;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
 import javax.persistence.*;
@@ -16,6 +18,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Getter @Setter
 @Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(columnNames = {
@@ -25,6 +28,7 @@ import java.util.Set;
                 "email"
         })
 })
+
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,18 +52,15 @@ public class User {
     @JoinTable(name = "user_role",
     joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     Set<Role> roles = new HashSet<>();
-    @NotBlank
     private Date birth;
     @NotBlank
     @Size(min = 3, max = 200)
     private String address;
-    @NotBlank
     private Date workingday;
-    @NotBlank
     @CreatedDate
-    private Date inTime;
-    @NotBlank
-    private Integer isActive;
+    private Date inTime = new Date();
+
+    private Integer isActive = 1;
 
     public User() {
     }
@@ -85,10 +86,18 @@ public class User {
                  @Size(max = 50)
                  @Email String email,
                 @NotBlank
-                 @Size(min = 0, max = 100)String encode) {
+                 @Size(min = 0, max = 100)
+                        String encode,
+                String address,
+                Date birth,
+                Date workingday
+                ) {
         this.name = name;
         this.username = username;
         this.email = email;
         this.password = encode;
+        this.address = address;
+        this.birth = birth;
+        this.workingday = workingday;
     }
 }

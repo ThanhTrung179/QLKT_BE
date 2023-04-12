@@ -3,11 +3,15 @@ package datn.qlkt.dto.request;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.Set;
 @Getter @Setter
 public class SignUpForm {
     private String name;
     private String username;
+    private String address;
+    private Date birth;
+    private Date workingday;
     private String email;
     private String password;
     private Set<String> roles;

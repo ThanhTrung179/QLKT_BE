@@ -1,6 +1,9 @@
 package datn.qlkt.dto.dtos;
 
 import datn.qlkt.ultis.NumberUtils;
+import lombok.Getter;
+import lombok.Setter;
+
 
 public record UserFilter(
         String name,
