@@ -15,4 +15,7 @@ public interface UserService {
     User save(User user);
 
     Page<?> searchUser(UserFilter userFilter) throws Exception;
+
+
+    public User updateUser(User user, Long id) throws Exception ;
 }

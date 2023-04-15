@@ -53,4 +53,22 @@ public class UserServiceImpl implements UserService {
         var result = userRepository.getAllUserList(pageable,userFilter.name(), userFilter.email());
         return result;
     }
+
+    @Override
+    public User updateUser(User user, Long id) throws Exception {
+        log.info("--------update user---------");
+        Optional<User> optionalUser = userRepository.findById(id);
+        if(!optionalUser.isPresent()) {
+            throw new Exception("User không được update");
+        }
+        User user1 = optionalUser.get();
+        user1.setRoles(user.getRoles());
+        user1.setAddress(user.getAddress());
+        user1.setBirth(user.getBirth());
+        user1.setUsername(user.getUsername());
+        user1.setEmail(user.getEmail());
+        user1.setName(user.getName());
+        user1.setIsActive(user.getIsActive());
+        return userRepository.save(user1);
+    }
 }
