@@ -52,6 +52,7 @@ public class Authcontroller {
         strRoles.forEach(role ->{
             switch (role) {
                 case "admin":
+                    var test = RoleName.ADMIN;
                     Role adminRole = roleService.findByName(RoleName.ADMIN).orElseThrow(
                             ()-> new RuntimeException("Role not fount")
                     );
