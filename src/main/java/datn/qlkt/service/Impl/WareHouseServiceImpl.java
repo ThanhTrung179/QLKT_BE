@@ -13,6 +13,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,8 +31,11 @@ public class WareHouseServiceImpl implements WareHouseService {
     @Override
     public Page<?> searchWareHouse(WareHouseFilter wareHouseFilter) throws Exception {
         log.info("--------- search  -----------");
+        var test = wareHouseFilter.isActive();
+        String[] strArray = test.split(",");
+        List<String> strList = Arrays.asList(strArray);
         Pageable pageable = PageRequest.of(wareHouseFilter.page(), wareHouseFilter.size());
-        var result = wareHouseRepository.getAllWareHouseList(pageable, wareHouseFilter.productId(), wareHouseFilter.productName(), wareHouseFilter.isActive());
+        var result = wareHouseRepository.getAllWareHouseList(pageable, wareHouseFilter.productId(), wareHouseFilter.productName(),strList);
         return result;
     }
 

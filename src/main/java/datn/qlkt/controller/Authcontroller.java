@@ -76,7 +76,7 @@ public class Authcontroller {
         return  new ResponseEntity<>(new ResponseMessage("Create user success"), HttpStatus.OK);
     }
 
-    @GetMapping("/signin")
+    @PostMapping("/signin")
     public ResponseEntity<?> login(@Valid @RequestBody SignInForm signInForm) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(signInForm.getUsername(), signInForm.getPassword()));

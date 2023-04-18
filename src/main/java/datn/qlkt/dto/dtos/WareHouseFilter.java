@@ -2,10 +2,12 @@ package datn.qlkt.dto.dtos;
 
 import datn.qlkt.ultis.NumberUtils;
 
+import java.lang.reflect.Array;
+
 public record WareHouseFilter (
         String productName,
         String productId,
-        Integer isActive,
+        String isActive,
         Integer page,
         Integer size
 ) {
