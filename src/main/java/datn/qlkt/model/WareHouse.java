@@ -27,6 +27,28 @@ public class WareHouse {
     Set<Product> product = new HashSet<>();
     private Date expiry;
     private Date manufactureDate;
-    private Date intime;
+    private Date intime = new Date();
     private Integer is_active;
+
+    public WareHouse(Long id, Set<Product> product, Date expiry, Date manufactureDate, Date intime, Integer is_active) {
+        this.id = id;
+        this.product = product;
+        this.expiry = expiry;
+        this.manufactureDate = manufactureDate;
+        this.intime = intime;
+        this.is_active = is_active;
+    }
+
+    public WareHouse() {
+    }
+
+    public WareHouse (
+             Date expiry,
+             Date manufactureDate,
+             Integer is_active
+    ) {
+        this.expiry = expiry;
+        this.manufactureDate = manufactureDate;
+        this.is_active = is_active;
+    }
 }

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -32,20 +33,31 @@ public class WareHouseServiceImpl implements WareHouseService {
     public Page<?> searchWareHouse(WareHouseFilter wareHouseFilter) throws Exception {
         log.info("--------- search  -----------");
         var test = wareHouseFilter.isActive();
-        String[] strArray = test.split(",");
-        List<String> strList = Arrays.asList(strArray);
+        List<Integer> numberList = Arrays.stream(test.split(","))
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
         Pageable pageable = PageRequest.of(wareHouseFilter.page(), wareHouseFilter.size());
-        var result = wareHouseRepository.getAllWareHouseList(pageable, wareHouseFilter.productId(), wareHouseFilter.productName(),strList);
+        var result = wareHouseRepository.getAllWareHouseList(pageable, wareHouseFilter.productId(), wareHouseFilter.productName(), numberList);
         return result;
     }
 
     @Override
     public WareHouse updateWareHouse(WareHouse wareHouse, Long id) throws Exception {
-        return null;
+        log.info("--------update warehouse---------");
+        Optional<WareHouse> optionalWareHouse = wareHouseRepository.findById(id);
+        if(!optionalWareHouse.isPresent()) {
+            throw new Exception("warehouse không được update");
+        }
+        WareHouse wareHouse1 = new WareHouse();
+        wareHouse1.setIs_active(wareHouse.getIs_active());
+        wareHouse1.setProduct(wareHouse.getProduct());
+        wareHouse1.setExpiry(wareHouse.getExpiry());
+        wareHouse1.setManufactureDate(wareHouse.getManufactureDate());
+        return wareHouseRepository.save(wareHouse1);
     }
 
     @Override
     public WareHouse save(WareHouse wareHouse) throws Exception {
-        return null;
+        return wareHouseRepository.save(wareHouse);
     }
 }

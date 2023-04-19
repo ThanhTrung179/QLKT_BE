@@ -3,6 +3,7 @@ package datn.qlkt.dto.dtos;
 import datn.qlkt.ultis.NumberUtils;
 
 import java.lang.reflect.Array;
+import java.util.List;
 
 public record WareHouseFilter (
         String productName,
