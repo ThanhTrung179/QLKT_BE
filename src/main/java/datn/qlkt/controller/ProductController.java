@@ -61,7 +61,7 @@ public class ProductController {
     }
 
     @PutMapping("/update/{id}")
-    public MyResponse<?> updateProduct(Product product, Long id) throws Exception {
+    public MyResponse<?> updateProduct(@RequestBody Product product, Long id) throws Exception {
         try {
             productService.updateProduct(product, id);
             return MyResponse.response(ErrorCode.UPDATED_OK.getCode(), ErrorCode.UPDATED_OK.getMsgError());
