@@ -39,14 +39,13 @@ public class WareHouseController {
             return MyResponse.response(ErrorCode.UPDATED_OK.getCode(), ErrorCode.UPDATED_OK.getMsgError());
         }catch (Exception ex) {
             return MyResponse.response(ErrorCode.UPDATED_FAIL.getCode(),ErrorCode.UPDATED_FAIL.getMsgError());
-
         }
     }
 
     @PostMapping("/created")
     public MyResponse<?> save(@Valid @RequestBody WareHouseForm wareHouseForm) throws Exception {
         try {
-            WareHouse wareHouse = new WareHouse(wareHouseForm.getExpiry(),wareHouseForm.getManufacture_date(),wareHouseForm.getIs_active());
+            WareHouse wareHouse = new WareHouse(wareHouseForm.getExpiry(),wareHouseForm.getManufacture_date(),wareHouseForm.getIs_active(),wareHouseForm.getQuantity());
             Set<Product> products = new HashSet<>();
             Product product = productRepository.findByProductName(wareHouseForm.getProduct()).orElseThrow(
                     ()-> new RuntimeException("Không tìm được Sản phẩm"));
@@ -60,6 +59,4 @@ public class WareHouseController {
             return MyResponse.response(ErrorCode.CREATED_FAIL.getCode(), ErrorCode.CREATED_FAIL.getMsgError());
         }
     }
-
-
 }

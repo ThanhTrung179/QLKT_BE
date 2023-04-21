@@ -1,6 +1,5 @@
 package datn.qlkt.service.Impl;
 
-import datn.qlkt.dto.dtos.ProductFilter;
 import datn.qlkt.dto.dtos.WareHouseFilter;
 import datn.qlkt.model.Product;
 import datn.qlkt.model.WareHouse;
@@ -13,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -60,4 +60,8 @@ public class WareHouseServiceImpl implements WareHouseService {
     public WareHouse save(WareHouse wareHouse) throws Exception {
         return wareHouseRepository.save(wareHouse);
     }
+
+
+
+
 }

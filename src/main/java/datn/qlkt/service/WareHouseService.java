@@ -14,7 +14,9 @@ public interface WareHouseService {
 
     Page<?> searchWareHouse(WareHouseFilter wareHouseFilter) throws Exception;
 
-    public WareHouse updateWareHouse(WareHouse wareHouse , Long id) throws Exception;
+     WareHouse updateWareHouse(WareHouse wareHouse , Long id) throws Exception;
 
-    public WareHouse save(WareHouse wareHouse) throws Exception;
+     WareHouse save(WareHouse wareHouse) throws Exception;
+
+
 }

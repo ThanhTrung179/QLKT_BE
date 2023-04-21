@@ -12,6 +12,7 @@ public class WareHouseForm {
     private Date expiry;
     private Date manufacture_date;
     private Integer is_active;
+    private Integer quantity;
     private String product;
 
     public WareHouseForm() {
