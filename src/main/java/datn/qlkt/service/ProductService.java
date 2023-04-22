@@ -14,7 +14,7 @@ public interface ProductService {
 
     Page<?> searchProduct(ProductFilter productFilter) throws Exception;
 
-    public Product updateProduct(Product product , Long id) throws Exception;
+    public Product updateProduct(ProductForm productForm , Long id) throws Exception;
 
     public Product save(Product product) throws Exception;
 }

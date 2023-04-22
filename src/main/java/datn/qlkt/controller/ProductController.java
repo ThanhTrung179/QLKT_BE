@@ -45,7 +45,7 @@ public class ProductController {
     @PostMapping("/save")
     public MyResponse<?> saveProduct(@Valid @RequestBody ProductForm productform) throws Exception {
         try {
-            Product product = new Product(productform.getProduct_id(),productform.getProduct_name(), productform.getConcentration(), productform.getIngredients(), productform.getRegulations());
+            Product product = new Product(productform.getProductId(),productform.getProductName(), productform.getConcentration(), productform.getIngredients(), productform.getRegulations());
             Set<Producer> producers = new HashSet<>();
             Producer producer = producerService.findByName(productform.getProducer()).orElseThrow(
                     ()-> new RuntimeException("Không tìm được NCC"));
@@ -61,9 +61,9 @@ public class ProductController {
     }
 
     @PutMapping("/update/{id}")
-    public MyResponse<?> updateProduct(@RequestBody Product product, Long id) throws Exception {
+    public MyResponse<?> updateProduct(@Valid @RequestBody ProductForm productform, @PathVariable Long id) throws Exception {
         try {
-            productService.updateProduct(product, id);
+            productService.updateProduct(productform, id);
             return MyResponse.response(ErrorCode.UPDATED_OK.getCode(), ErrorCode.UPDATED_OK.getMsgError());
         }catch (Exception ex) {
             return MyResponse.response(ErrorCode.UPDATED_FAIL.getCode(),ErrorCode.UPDATED_FAIL.getMsgError());

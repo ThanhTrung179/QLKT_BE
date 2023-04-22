@@ -8,8 +8,8 @@ import java.util.Set;
 @Getter
 @Setter
 public class ProductForm {
-    private String product_id;
-    private String product_name;
+    private String productId;
+    private String productName;
     private String concentration;
     private  String ingredients;
     private  String regulations;
@@ -19,9 +19,9 @@ public class ProductForm {
 
     };
 
-    public ProductForm(String product_id, String product_name, String concentration, String ingredients, String regulations, String producer) {
-        this.product_id = product_id;
-        this.product_name = product_name;
+    public ProductForm(String productId, String productName, String concentration, String ingredients, String regulations, String producer) {
+        this.productId = productId;
+        this.productName = productName;
         this.concentration = concentration;
         this.ingredients = ingredients;
         this.regulations = regulations;
