@@ -14,6 +14,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String name); //Tim kiem User co ton tai trong db khong
+
     Boolean existsByUsername(String name); //Kiem tra username co ton tai tong db
     Boolean existsByEmail(String email); //Kiem tra email co ton tai trong db
 
