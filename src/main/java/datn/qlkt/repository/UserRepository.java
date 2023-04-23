@@ -17,7 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Boolean existsByUsername(String name); //Kiem tra username co ton tai tong db
     Boolean existsByEmail(String email); //Kiem tra email co ton tai trong db
-
+    Optional<User> findById(Long id);
 
     @Query(value = "SELECT u FROM User u where u.isActive = 1" +
      "And (:name IS NULL OR u.name like %:name%) " +

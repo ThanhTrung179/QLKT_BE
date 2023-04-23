@@ -3,6 +3,7 @@ package datn.qlkt.service.Impl;
 import datn.qlkt.dto.dtos.ProductFilter;
 import datn.qlkt.dto.dtos.UserFilter;
 import datn.qlkt.dto.request.ProductForm;
+import datn.qlkt.model.Producer;
 import datn.qlkt.model.Product;
 import datn.qlkt.model.Product_producer;
 import datn.qlkt.model.User;
@@ -15,7 +16,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -23,6 +26,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    ProducerServiceImpl producerService;
     @Override
     public Optional<Product> findById(Long id) {
         return productRepository.findById(id);
@@ -37,18 +43,23 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(Product product, Long id) throws Exception {
+    public Product updateProduct(ProductForm productForm, Long id) throws Exception {
         log.info("--------update user---------");
         Optional<Product> optionalProduct = productRepository.findById(id);
         if(!optionalProduct.isPresent()) {
             throw new Exception("Product không được update");
         }
-        Product product1 = new Product();
-        product1.setProductId(product.getProductId());
-        product1.setProductName(product.getProductName());
-        product1.setConcentration(product.getConcentration());
-        product1.setIngredients(product.getIngredients());
-        product1.setRegulations(product.getRegulations());
+        Product product1 = optionalProduct.get();
+        product1.setProductId(productForm.getProductId());
+        product1.setProductName(productForm.getProductName());
+        product1.setConcentration(productForm.getConcentration());
+        product1.setIngredients(productForm.getIngredients());
+        product1.setRegulations(productForm.getRegulations());
+        Set<Producer> producers = new HashSet<>();
+        Producer producer = producerService.findByName(productForm.getProducer()).orElseThrow(
+                ()-> new RuntimeException("Không tìm được NCC"));
+        producers.add(producer);
+        product1.setProducers(producers);
         return productRepository.save(product1);
     }
 

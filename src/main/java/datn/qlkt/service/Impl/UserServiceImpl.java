@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -28,6 +29,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     RoleServiceImpl roleService;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -99,6 +103,7 @@ public class UserServiceImpl implements UserService {
         user1.setAddress(user.getAddress());
         user1.setBirth(user.getBirth());
         user1.setUsername(user.getUsername());
+        user1.setPassword(passwordEncoder.encode(user.getPassword()));
         user1.setEmail(user.getEmail());
         user1.setName(user.getName());
         return userRepository.save(user1);

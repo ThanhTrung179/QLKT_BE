@@ -39,7 +39,6 @@ public class User {
     @NotBlank
     @Size(min = 3, max = 50)
     private String username;
-    @NaturalId
     @NotBlank
     @Size(max = 50)
     @Email
