@@ -26,7 +26,7 @@ public class WareHouseServiceImpl implements WareHouseService {
 
     @Override
     public Optional<WareHouse> findById(Long id) {
-        return Optional.empty();
+        return wareHouseRepository.findById(id);
     }
 
     @Override
