@@ -19,9 +19,21 @@ public class Entry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String idEntry;
-    private Date inTime;
+    private Date inTime = new Date();
     private String note;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "warehouse_id", referencedColumnName = "id")
     private WareHouse wareHouse;
 
+    public Entry() {
+    }
+
+
+    public Entry(Long id, String idEntry, Date inTime, String note, WareHouse wareHouse) {
+        this.id = id;
+        this.idEntry = idEntry;
+        this.inTime = inTime;
+        this.note = note;
+        this.wareHouse = wareHouse;
+    }
 }

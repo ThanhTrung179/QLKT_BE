@@ -22,6 +22,7 @@ public class ProducerServiceImpl implements ProducerService {
     }
 
     public Producer save(Producer producer) {
+        producer.setIs_active(1);
         return  producerRespository.save(producer);
     }
 
