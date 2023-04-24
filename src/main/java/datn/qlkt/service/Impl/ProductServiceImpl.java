@@ -65,6 +65,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product save(Product product) throws Exception {
+        product.setIsActive(1);
         return productRepository.save(product);
     }
 

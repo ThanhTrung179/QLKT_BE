@@ -58,6 +58,7 @@ public class WareHouseServiceImpl implements WareHouseService {
 
     @Override
     public WareHouse save(WareHouse wareHouse) throws Exception {
+        wareHouse.setIs_active(1);
         return wareHouseRepository.save(wareHouse);
     }
 

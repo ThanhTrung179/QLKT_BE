@@ -48,8 +48,8 @@ public class WareHouse {
     public WareHouse (
              Date expiry,
              Date manufactureDate,
-             Integer quantity,
-             Integer is_active
+             Integer is_active,
+             Integer quantity
     ) {
         this.expiry = expiry;
         this.manufactureDate = manufactureDate;
