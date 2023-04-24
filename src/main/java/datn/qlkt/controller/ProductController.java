@@ -72,4 +72,11 @@ public class ProductController {
     }
 
 
+    @GetMapping("/find/{id}")
+    public MyResponse<?> findById(@PathVariable Long id) throws Exception {
+        var product = productService.findById(id);
+        return MyResponse.response(product);
+    }
+
+
 }

@@ -17,4 +17,7 @@ public class Producer {
     @NaturalId
     @Column(length = 200)
     private String producerName;
+    private String address;
+    private String information;
+    private Integer is_active;
 }

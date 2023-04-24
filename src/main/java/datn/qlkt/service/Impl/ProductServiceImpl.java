@@ -36,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<?> searchProduct(ProductFilter productFilter) throws Exception {
-        log.info("--------- search  -----------");
+        log.info("--------- search product  -----------");
         Pageable pageable = PageRequest.of(productFilter.page(), productFilter.size());
         var result = productRepository.getAllProductList(pageable, productFilter.productId(), productFilter.productName(), productFilter.producers());
         return result;
