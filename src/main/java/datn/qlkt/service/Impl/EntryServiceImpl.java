@@ -66,11 +66,16 @@ public class EntryServiceImpl implements EntryService {
     public Page<?> searchEntry(EntryFilter entryFilter) throws Exception {
         log.info("--------- search eNTRY  -----------");
         Pageable pageable = PageRequest.of(entryFilter.page(), entryFilter.size());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-        Date startDate = dateFormat.parse(entryFilter.startDate());
-        Date endDate = dateFormat.parse(entryFilter.endDate());
-        var resut = entryRepository.getAllEntryList(pageable,entryFilter.nameProduct(), entryFilter.idEntry(), entryFilter.nameProducer(), startDate, endDate);
+        Page resut ;
+        if(entryFilter.startDate() != null || entryFilter.endDate() != null) {
+            resut = entryRepository.getAllEntryListNotDate(pageable, entryFilter.nameProduct(), entryFilter.idEntry(), entryFilter.nameProducer());
+        }
+        else {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date startDate = dateFormat.parse(entryFilter.startDate());
+            Date endDate = dateFormat.parse(entryFilter.endDate());
+             resut = entryRepository.getAllEntryList(pageable, entryFilter.nameProduct(), entryFilter.idEntry(), entryFilter.nameProducer(), startDate, endDate);
+        }
         return resut;
     }
 }

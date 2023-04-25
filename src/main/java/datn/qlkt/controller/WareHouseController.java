@@ -59,4 +59,10 @@ public class WareHouseController {
             return MyResponse.response(ErrorCode.CREATED_FAIL.getCode(), ErrorCode.CREATED_FAIL.getMsgError());
         }
     }
+
+    @GetMapping("/find/{id}")
+    public MyResponse<?> findById(@PathVariable Long id) throws Exception {
+        var warehouser = wareHouseService.findById(id);
+        return MyResponse.response(warehouser);
+    }
 }
