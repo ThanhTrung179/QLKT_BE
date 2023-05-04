@@ -5,9 +5,7 @@ import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -21,15 +19,14 @@ public class Entry {
     private String idEntry;
     private Date inTime = new Date();
     private String note;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "warehouse_id", referencedColumnName = "id")
-    private WareHouse wareHouse;
+    @OneToMany(mappedBy = "entry", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Collection<WareHouse> wareHouse;
 
     public Entry() {
     }
 
 
-    public Entry(Long id, String idEntry, Date inTime, String note, WareHouse wareHouse) {
+    public Entry(Long id, String idEntry, Date inTime, String note, List<WareHouse> wareHouse) {
         this.id = id;
         this.idEntry = idEntry;
         this.inTime = inTime;
