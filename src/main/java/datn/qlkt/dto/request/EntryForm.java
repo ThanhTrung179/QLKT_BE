@@ -6,19 +6,20 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
 public class EntryForm {
 
     private String note;
-    private WareHouseForm wareHouseForm;
+    private List<WareHouseForm> wareHouseForm;
 
     public EntryForm() {
     }
 
     public EntryForm(String note, WareHouseForm wareHouseForm) {
         this.note = note;
-        this.wareHouseForm = wareHouseForm;
+        this.wareHouseForm = (List<WareHouseForm>) wareHouseForm;
     }
 }

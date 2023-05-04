@@ -1,5 +1,6 @@
 package datn.qlkt.service;
 
+import datn.qlkt.dto.dto.EntryDto;
 import datn.qlkt.dto.dtos.EntryFilter;
 import datn.qlkt.dto.dtos.ProductFilter;
 import datn.qlkt.dto.request.EntryForm;
@@ -10,5 +11,5 @@ public interface EntryService {
 
     Entry save(EntryForm entryForm) throws Exception;
 
-    Page<?> searchEntry(EntryFilter entryFilter) throws Exception;
+    Page<EntryDto> searchEntry(EntryFilter entryFilter) throws Exception;
 }
