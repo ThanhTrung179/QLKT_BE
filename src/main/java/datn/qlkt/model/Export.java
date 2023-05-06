@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Date;
 
 @Entity
@@ -19,4 +20,17 @@ public class Export {
     private String idExport;
     private Date inTime = new Date();
     private String note;
+    @OneToMany(mappedBy = "export", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Collection<WareHouseExport> wareHouseExports;
+
+    public Export(Long id, String idExport, Date inTime, String note, Collection<WareHouseExport> wareHouseExports) {
+        this.id = id;
+        this.idExport = idExport;
+        this.inTime = inTime;
+        this.note = note;
+        this.wareHouseExports = wareHouseExports;
+    }
+
+    public Export() {
+    }
 }

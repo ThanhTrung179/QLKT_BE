@@ -49,7 +49,7 @@ public class EntryServiceImpl implements EntryService {
         LocalDateTime now = LocalDateTime.now();
         int minute = now.getMinute();
         int hour = now.getHour();
-        entry.setIdEntry("NK_" + formattedDate +hour+minute);
+        entry.setIdEntry("PNK_" + formattedDate +hour+minute);
         entryRepository.save(entry);
         for(WareHouseForm wareHouseForm: entryForm.getWareHouseForm()){
             WareHouse wareHouse = new WareHouse();
@@ -61,6 +61,7 @@ public class EntryServiceImpl implements EntryService {
             wareHouse.setExpiry(wareHouseForm.getExpiry());
             wareHouse.setManufactureDate(wareHouseForm.getManufacture_date());
             wareHouse.setQuantity(wareHouseForm.getQuantity());
+            wareHouse.setQuantityfix(wareHouseForm.getQuantity());
             wareHouse.setIs_active(1);
             wareHouse.setEntry(entry);
             wareHouseService.save(wareHouse);
