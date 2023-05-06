@@ -12,16 +12,16 @@ public class ExportDto {
     private String idExport;
     private Date inTime;
     private String note;
-    private List<WareHouseDto> wareHouse;
+    private List<WareHouseExportDto> wareHouseExport;
 
     public ExportDto() {
     }
 
-    public ExportDto(Long id, String idExport, Date inTime, String note, List<WareHouseDto> wareHouse) {
+    public ExportDto(Long id, String idExport, Date inTime, String note, List<WareHouseExportDto> wareHouseExport) {
         this.id = id;
         this.idExport = idExport;
         this.inTime = inTime;
         this.note = note;
-        this.wareHouse = wareHouse;
+        this.wareHouseExport = wareHouseExport;
     }
 }
