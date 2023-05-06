@@ -1,5 +1,7 @@
 package datn.qlkt.controller;
 
+import datn.qlkt.dto.dtos.EntryFilter;
+import datn.qlkt.dto.dtos.ExportFilter;
 import datn.qlkt.dto.request.EntryForm;
 import datn.qlkt.entities.ErrorCode;
 import datn.qlkt.entities.MyResponse;
@@ -7,10 +9,7 @@ import datn.qlkt.service.Impl.ExportServiceImpl;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -33,5 +32,18 @@ public class ExportController {
             log.info(ex);
             return MyResponse.response(ErrorCode.CREATED_FAIL.getCode(), ErrorCode.CREATED_FAIL.getMsgError());
         }
+    }
+
+    @GetMapping("/search")
+    public MyResponse<?> search(ExportFilter exportFilter) throws Exception {
+        var list = exportService.searchExport(exportFilter);
+        return MyResponse.response(list);
+
+    }
+
+    @GetMapping("/find/{id}")
+    public MyResponse<?> findbyid(@PathVariable Long id) throws Exception {
+        var warehouser = exportService.findById(id);
+        return MyResponse.response(warehouser);
     }
 }
