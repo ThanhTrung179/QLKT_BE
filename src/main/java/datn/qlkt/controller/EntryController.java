@@ -43,4 +43,15 @@ public class EntryController {
             return MyResponse.response(list);
 
     }
+
+    @GetMapping("/find/{id}")
+    public MyResponse<?> findbyid(@PathVariable Long id) throws Exception {
+        var warehouser = entryService.findById(id);
+        return MyResponse.response(warehouser);
+    }
+
+//    @PutMapping("/approve/{id}")
+//    public MyResponse<?> approveEntry(@PathVariable Long id) throws Exception {
+//
+//    }
 }

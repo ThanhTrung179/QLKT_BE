@@ -1,23 +1,37 @@
 package datn.qlkt.service.Impl;
 
+import datn.qlkt.dto.dto.EntryDto;
+import datn.qlkt.dto.dto.ExportDto;
+import datn.qlkt.dto.dtos.EntryFilter;
+import datn.qlkt.dto.dtos.ExportFilter;
 import datn.qlkt.dto.request.EntryForm;
 import datn.qlkt.dto.request.WareHouseForm;
+import datn.qlkt.model.Entry;
 import datn.qlkt.model.Export;
 import datn.qlkt.model.Product;
 import datn.qlkt.model.WareHouseExport;
 import datn.qlkt.repository.*;
 import datn.qlkt.service.ExportService;
 import datn.qlkt.service.WareHouseExportService;
+import lombok.extern.log4j.Log4j2;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 @Service
+@Log4j2
 public class ExportServiceImpl implements ExportService {
 
     @Autowired
@@ -73,5 +87,33 @@ public class ExportServiceImpl implements ExportService {
         }
     }
 
-//    public Page<>
+    @Override
+    public Page<ExportDto> searchExport(ExportFilter exportFilter) throws Exception {
+        ModelMapper modelMapper = new ModelMapper();
+
+        log.info("--------- search export  -----------");
+        Pageable pageable = PageRequest.of(exportFilter.page(), exportFilter.size());
+        Page<Export> entries;
+        if(exportFilter.startDate() != null || exportFilter.endDate() != null) {
+            entries = exportRepository.getAllExportListNotDate(pageable, exportFilter.nameProduct(), exportFilter.idExport(), exportFilter.nameProducer());
+
+        }
+        else {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date startDate = dateFormat.parse(exportFilter.startDate());
+            Date endDate = dateFormat.parse(exportFilter.endDate());
+            entries = exportRepository.getAllExportList(pageable, exportFilter.nameProduct(), exportFilter.idExport(), exportFilter.nameProducer(), startDate, endDate);
+        }
+
+        return entries.map(export -> modelMapper.map(export, ExportDto.class));
+    }
+
+    @Override
+    public Optional<ExportDto> findById(Long id) {
+        ModelMapper modelMapper = new ModelMapper();
+        Optional<Export> export;
+        export = exportRepository.findById(id);
+        return export.map(export1 -> modelMapper.map(export1, ExportDto.class));
+    }
+
 }

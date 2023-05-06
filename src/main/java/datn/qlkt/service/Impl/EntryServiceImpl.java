@@ -70,6 +70,14 @@ public class EntryServiceImpl implements EntryService {
     }
 
     @Override
+    public Optional<EntryDto> findById(Long id) {
+        ModelMapper modelMapper = new ModelMapper();
+        Optional<Entry> entry;
+         entry = entryRepository.findById(id);
+         return entry.map(entry1 -> modelMapper.map(entry1, EntryDto.class));
+    }
+
+    @Override
     public Page<EntryDto> searchEntry(EntryFilter entryFilter) throws Exception {
         ModelMapper modelMapper = new ModelMapper();
 
@@ -89,4 +97,11 @@ public class EntryServiceImpl implements EntryService {
 
         return entries.map(entry -> modelMapper.map(entry, EntryDto.class));
     }
+
+    @Override
+    public void approveEntry(Long id) throws Exception {
+
+    }
+
+
 }
