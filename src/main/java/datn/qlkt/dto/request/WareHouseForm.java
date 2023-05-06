@@ -8,7 +8,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class WareHouseForm {
-
+    private Long id;
     private Date expiry;
     private Date manufacture_date;
     private Integer is_active;

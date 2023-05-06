@@ -1,5 +1,6 @@
 package datn.qlkt.service;
 
+import datn.qlkt.dto.dto.WareHouseDto;
 import datn.qlkt.dto.dtos.ProductFilter;
 import datn.qlkt.dto.dtos.WareHouseFilter;
 import datn.qlkt.model.Product;
@@ -12,7 +13,7 @@ public interface WareHouseService {
 
     Optional<WareHouse> findById(Long id) ;
 
-    Page<?> searchWareHouse(WareHouseFilter wareHouseFilter) throws Exception;
+    Page<WareHouseDto> searchWareHouse(WareHouseFilter wareHouseFilter) throws Exception;
 
      WareHouse updateWareHouse(WareHouse wareHouse , Long id) throws Exception;
 

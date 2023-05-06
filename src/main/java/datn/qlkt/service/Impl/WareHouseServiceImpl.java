@@ -1,11 +1,15 @@
 package datn.qlkt.service.Impl;
 
+import datn.qlkt.dto.dto.EntryDto;
+import datn.qlkt.dto.dto.WareHouseDto;
 import datn.qlkt.dto.dtos.WareHouseFilter;
+import datn.qlkt.model.Entry;
 import datn.qlkt.model.Product;
 import datn.qlkt.model.WareHouse;
 import datn.qlkt.repository.WareHouseRepository;
 import datn.qlkt.service.WareHouseService;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,15 +34,17 @@ public class WareHouseServiceImpl implements WareHouseService {
     }
 
     @Override
-    public Page<?> searchWareHouse(WareHouseFilter wareHouseFilter) throws Exception {
+    public Page<WareHouseDto> searchWareHouse(WareHouseFilter wareHouseFilter) throws Exception {
+        ModelMapper modelMapper = new ModelMapper();
         log.info("--------- search  -----------");
         var test = wareHouseFilter.isActive();
+        Pageable pageable = PageRequest.of(wareHouseFilter.page(), wareHouseFilter.size());
+        Page<WareHouse> wareHouses;
         List<Integer> numberList = Arrays.stream(test.split(","))
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
-        Pageable pageable = PageRequest.of(wareHouseFilter.page(), wareHouseFilter.size());
         var result = wareHouseRepository.getAllWareHouseList(pageable, wareHouseFilter.productId(), wareHouseFilter.productName(), numberList);
-        return result;
+        return result.map(wareHouse -> modelMapper.map(wareHouse, WareHouseDto.class));
     }
 
     @Override

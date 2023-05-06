@@ -29,13 +29,14 @@ public class WareHouse {
     private Date manufactureDate;
     private Date intime = new Date();
     private Integer is_active;
+    private Integer quantityfix;
     private Integer quantity;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "entry_id")
     private Entry entry;
 
 
-    public WareHouse(Long id, Set<Product> product, Date expiry, Date manufactureDate, Date intime, Integer is_active, Integer quantity, Entry entry) {
+    public WareHouse(Long id, Set<Product> product, Date expiry, Date manufactureDate, Date intime, Integer is_active, Integer quantity, Integer quantityfix, Entry entry) {
         this.id = id;
         this.product = product;
         this.expiry = expiry;
@@ -43,6 +44,7 @@ public class WareHouse {
         this.intime = intime;
         this.is_active = is_active;
         this.quantity = quantity;
+        this.quantityfix = quantityfix;
         this.entry = entry;
     }
 
