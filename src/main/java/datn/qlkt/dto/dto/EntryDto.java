@@ -13,16 +13,18 @@ public class EntryDto {
     private String idEntry;
     private Date inTime;
     private String note;
+    private Integer isActive;
     private List<WareHouseDto> wareHouse;
 
     public EntryDto() {
     }
 
-    public EntryDto(Long id, String idEntry, Date inTime, String note, List<WareHouseDto> wareHouse) {
+    public EntryDto(Long id, String idEntry, Date inTime, String note, List<WareHouseDto> wareHouse, Integer isActive) {
         this.id = id;
         this.idEntry = idEntry;
         this.inTime = inTime;
         this.note = note;
         this.wareHouse = wareHouse;
+        this.isActive = isActive;
     }
 }
