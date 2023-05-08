@@ -50,8 +50,15 @@ public class EntryController {
         return MyResponse.response(warehouser);
     }
 
-//    @PutMapping("/approve/{id}")
-//    public MyResponse<?> approveEntry(@PathVariable Long id) throws Exception {
-//
-//    }
+    @PutMapping("/approve/{id}")
+    public MyResponse<?> approveExport(@PathVariable Long id ,@RequestParam Integer isActive) throws Exception {
+        try {
+            entryService.approveEntry(isActive, id);
+            return MyResponse.response(ErrorCode.APPROVE_OK.getCode(), ErrorCode.APPROVE_OK.getMsgError());
+        }
+        catch (Exception ex) {
+            log.info(ex);
+            return MyResponse.response(ErrorCode.APPROVE_FAIL.getCode(), ErrorCode.APPROVE_FAIL.getMsgError());
+        }
+    }
 }
