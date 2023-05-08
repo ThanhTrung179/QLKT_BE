@@ -13,15 +13,17 @@ public class ExportDto {
     private Date inTime;
     private String note;
     private List<WareHouseExportDto> wareHouseExport;
+    private Integer isActive;
 
     public ExportDto() {
     }
 
-    public ExportDto(Long id, String idExport, Date inTime, String note, List<WareHouseExportDto> wareHouseExport) {
+    public ExportDto(Long id, String idExport, Date inTime, String note, List<WareHouseExportDto> wareHouseExport, Integer isActive) {
         this.id = id;
         this.idExport = idExport;
         this.inTime = inTime;
         this.note = note;
         this.wareHouseExport = wareHouseExport;
+        this.isActive = isActive;
     }
 }
