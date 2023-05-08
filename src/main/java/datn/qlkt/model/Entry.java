@@ -21,16 +21,18 @@ public class Entry {
     private String note;
     @OneToMany(mappedBy = "entry", cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<WareHouse> wareHouse;
+    private Integer isActive;
 
     public Entry() {
     }
 
 
-    public Entry(Long id, String idEntry, Date inTime, String note, List<WareHouse> wareHouse) {
+    public Entry(Long id, String idEntry, Date inTime, String note, List<WareHouse> wareHouse,Integer isActive) {
         this.id = id;
         this.idEntry = idEntry;
         this.inTime = inTime;
         this.note = note;
         this.wareHouse = wareHouse;
+        this.isActive = isActive;
     }
 }

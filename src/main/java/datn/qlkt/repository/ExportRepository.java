@@ -5,6 +5,7 @@ import datn.qlkt.model.Export;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -46,4 +47,8 @@ public interface ExportRepository extends JpaRepository<Export, Long> {
                     "AND (:nameProduct IS NULL OR p.productName LIKE %:nameProduct%) " +
                     "AND (:nameProducer IS NULL OR pr.producerName LIKE %:nameProducer%) ")
     Page<Export> getAllExportListNotDate(Pageable pageable, String nameProduct, String idExport, String nameProducer);
+
+    @Modifying
+    @Query("UPDATE Export e SET e.isActive = :isActive where e.id = :id")
+    void updateExportActive(Integer isActive, Long id);
 }

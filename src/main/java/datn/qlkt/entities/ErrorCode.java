@@ -14,4 +14,7 @@ public class ErrorCode {
     public static final ObjectError CREATED_OK = new ObjectError("200", "Thêm mới thành công!");
     public static final ObjectError UPDATED_OK = new ObjectError("200", "Cập nhật thành công!");
     public static final ObjectError DELETED_OK = new ObjectError("200", "Delete thành công");
+
+    public static final ObjectError APPROVE_OK = new ObjectError("200", "duyệt phiếu thành công!");
+    public static final ObjectError APPROVE_FAIL = new ObjectError("200", "duyệt phiếu thất bại!");
 }

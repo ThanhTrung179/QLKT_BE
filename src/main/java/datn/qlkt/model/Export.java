@@ -22,13 +22,15 @@ public class Export {
     private String note;
     @OneToMany(mappedBy = "export", cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<WareHouseExport> wareHouseExports;
+    private Integer isActive;
 
-    public Export(Long id, String idExport, Date inTime, String note, Collection<WareHouseExport> wareHouseExports) {
+    public Export(Long id, String idExport, Date inTime, String note, Collection<WareHouseExport> wareHouseExports, Integer isActive) {
         this.id = id;
         this.idExport = idExport;
         this.inTime = inTime;
         this.note = note;
         this.wareHouseExports = wareHouseExports;
+        this.isActive = isActive;
     }
 
     public Export() {

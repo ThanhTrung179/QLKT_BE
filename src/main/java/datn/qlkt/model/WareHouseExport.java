@@ -31,4 +31,5 @@ public class WareHouseExport {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "export_id")
     private Export export;
+    private Long id_wareHouse;
 }

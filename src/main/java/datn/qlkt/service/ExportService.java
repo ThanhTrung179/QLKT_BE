@@ -17,4 +17,6 @@ public interface ExportService {
     Page<ExportDto> searchExport(ExportFilter exportFilter) throws Exception;
 
     Optional<ExportDto> findById(Long id);
+
+    void approveExport(Long id,Integer isActive) throws Exception;
 }
