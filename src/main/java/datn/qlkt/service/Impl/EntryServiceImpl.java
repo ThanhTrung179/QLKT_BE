@@ -9,6 +9,7 @@ import datn.qlkt.model.Product;
 import datn.qlkt.model.WareHouse;
 import datn.qlkt.repository.EntryRepository;
 import datn.qlkt.repository.ProductRepository;
+import datn.qlkt.repository.WareHouseRepository;
 import datn.qlkt.service.EntryService;
 import datn.qlkt.service.WareHouseService;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -39,6 +41,9 @@ public class EntryServiceImpl implements EntryService {
     @Autowired
     ProductRepository productRepository;
 
+    @Autowired
+    WareHouseRepository wareHouseRepository;
+
     @Override
     public Entry save(EntryForm entryForm) throws Exception {
         Entry entry = new Entry();
@@ -50,6 +55,7 @@ public class EntryServiceImpl implements EntryService {
         int minute = now.getMinute();
         int hour = now.getHour();
         entry.setIdEntry("PNK_" + formattedDate +hour+minute);
+        entry.setIsActive(0);
         entryRepository.save(entry);
         for(WareHouseForm wareHouseForm: entryForm.getWareHouseForm()){
             WareHouse wareHouse = new WareHouse();
@@ -62,7 +68,7 @@ public class EntryServiceImpl implements EntryService {
             wareHouse.setManufactureDate(wareHouseForm.getManufacture_date());
             wareHouse.setQuantity(wareHouseForm.getQuantity());
             wareHouse.setQuantityfix(wareHouseForm.getQuantity());
-            wareHouse.setIs_active(1);
+            wareHouse.setIs_active(0);
             wareHouse.setEntry(entry);
             wareHouseService.save(wareHouse);
         }
@@ -99,9 +105,17 @@ public class EntryServiceImpl implements EntryService {
     }
 
     @Override
-    public void approveEntry(Long id) throws Exception {
-
+    @Transactional
+    public void approveEntry(Integer isActive, Long id) throws Exception {
+        if(isActive == 1) {
+            wareHouseRepository.updateExportWareHouseifApprove(isActive, id);
+            entryRepository.updateEntryActive(isActive, id);
+        }
+        else if (isActive == 2) {
+            entryRepository.updateEntryActive(isActive, id);
+        }
     }
+
 
 
 }

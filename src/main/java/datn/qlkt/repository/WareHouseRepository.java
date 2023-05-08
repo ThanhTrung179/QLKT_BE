@@ -25,7 +25,7 @@ public interface WareHouseRepository extends JpaRepository<WareHouse, Long> {
     )
     Page<WareHouse> getAllWareHouseList(Pageable pageable, String productName, String productId, List<Integer> isActive);
 
-    @Query("SELECT w FROM WareHouse w left join Warehouse_product wp ON wp.warehouser_id = w.id LEFT JOIN Product p ON wp.product_id = p.id where w.is_active = 2")
+    @Query("SELECT w FROM WareHouse w left join Warehouse_product wp ON wp.warehouser_id = w.id LEFT JOIN Product p ON wp.product_id = p.id where w.is_active = 1")
     List<WareHouse> getWareHouse();
 
     @Modifying
@@ -36,5 +36,9 @@ public interface WareHouseRepository extends JpaRepository<WareHouse, Long> {
     @Modifying
     @Query("UPDATE WareHouse w SET w.quantity = :quantity, w.is_active = 2 where w.id = :id")
     void updateExportWareHouseifClean(Integer quantity, Long id);
+
+    @Modifying
+    @Query("UPDATE WareHouse w SET w.quantity = :quantity, w.is_active = 1 where w.id = :id")
+    void updateExportWareHouseifApprove(Integer quantity, Long id);
 
 }

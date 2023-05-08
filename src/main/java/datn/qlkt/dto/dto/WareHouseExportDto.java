@@ -16,6 +16,7 @@ public class WareHouseExportDto {
     private Date intime;
     private Integer isActive;
     private Integer quantity;
+    private Long id_wareHouse;
 
     public WareHouseExportDto() {
     }

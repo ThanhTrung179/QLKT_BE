@@ -2,6 +2,7 @@ package datn.qlkt.service.Impl;
 
 import datn.qlkt.dto.dto.EntryDto;
 import datn.qlkt.dto.dto.ExportDto;
+import datn.qlkt.dto.dto.WareHouseExportDto;
 import datn.qlkt.dto.dtos.EntryFilter;
 import datn.qlkt.dto.dtos.ExportFilter;
 import datn.qlkt.dto.request.EntryForm;
@@ -45,8 +46,8 @@ public class ExportServiceImpl implements ExportService {
 
     @Autowired
     WareHouseRepository wareHouseRepository;
+
     @Override
-    @Transactional
     public void save(EntryForm entryForm) throws Exception {
         Export export = new Export();
         export.setNote(entryForm.getNote());
@@ -68,6 +69,7 @@ public class ExportServiceImpl implements ExportService {
             wareHouseExport.setExpiry(wareHouseForm.getExpiry());
             wareHouseExport.setManufactureDate(wareHouseForm.getManufacture_date());
             wareHouseExport.setQuantity(wareHouseForm.getQuantity());
+            wareHouseExport.setId_wareHouse(wareHouseForm.getId());
             var opt = wareHouseRepository.findById(wareHouseForm.getId());
             if (!opt.isPresent()) {
                 throw new Exception("Sản phẩm không có trong kho");
@@ -75,17 +77,13 @@ public class ExportServiceImpl implements ExportService {
             if(wareHouseForm.getQuantity() > opt.get().getQuantity()){
                 throw new Exception("Số lượng không đủ");
             }
-            var remaining = opt.get().getQuantity() - wareHouseForm.getQuantity();
-            if(remaining == 0 ) {
-                wareHouseRepository.updateExportWareHouseifClean(remaining, wareHouseForm.getId());
-            }else {
-                wareHouseRepository.updateExportWareHouse(remaining, wareHouseForm.getId());
-            }
-            wareHouseExport.setIs_active(1);
+            wareHouseExport.setIs_active(0);
             wareHouseExport.setExport(export);
             wareHouseExportService.save(wareHouseExport);
         }
     }
+
+
 
     @Override
     public Page<ExportDto> searchExport(ExportFilter exportFilter) throws Exception {
@@ -114,6 +112,30 @@ public class ExportServiceImpl implements ExportService {
         Optional<Export> export;
         export = exportRepository.findById(id);
         return export.map(export1 -> modelMapper.map(export1, ExportDto.class));
+    }
+
+    @Override
+    @Transactional
+    public void approveExport(Long id,Integer isActive) throws Exception {
+        var optExport = this.findById(id);
+        if(isActive == 1) {
+
+            for (WareHouseExportDto wareHouseExport : optExport.get().getWareHouseExport()) {
+                var opt = wareHouseRepository.findById(wareHouseExport.getId_wareHouse());
+                var remaining = opt.get().getQuantity() - wareHouseExport.getQuantity();
+                if (remaining == 0) {
+                    wareHouseRepository.updateExportWareHouseifClean(remaining, wareHouseExport.getId_wareHouse());
+                } else {
+                    wareHouseRepository.updateExportWareHouse(remaining, wareHouseExport.getId_wareHouse());
+                }
+            }
+            exportRepository.updateExportActive(isActive, id);
+        }
+        else if(isActive == 2) {
+            exportRepository.updateExportActive(isActive, id);
+        }
+
+
     }
 
 }

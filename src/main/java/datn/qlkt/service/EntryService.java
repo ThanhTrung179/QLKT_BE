@@ -18,5 +18,5 @@ public interface EntryService {
 
     Page<EntryDto> searchEntry(EntryFilter entryFilter) throws Exception;
 
-    void approveEntry(Long id) throws Exception;
+    void approveEntry(Integer isActive, Long id) throws Exception;
 }
