@@ -58,6 +58,7 @@ public class ExportServiceImpl implements ExportService {
         int minute = now.getMinute();
         int hour = now.getHour();
         export.setIdExport("PXK_" + formattedDate +hour+minute);
+        export.setIsActive(0);
         exportRepository.save(export);
         for(WareHouseForm wareHouseForm: entryForm.getWareHouseForm()){
             WareHouseExport wareHouseExport = new WareHouseExport();
