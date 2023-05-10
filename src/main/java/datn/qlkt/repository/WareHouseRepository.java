@@ -38,7 +38,7 @@ public interface WareHouseRepository extends JpaRepository<WareHouse, Long> {
     void updateExportWareHouseifClean(Integer quantity, Long id);
 
     @Modifying
-    @Query("UPDATE WareHouse w SET w.quantity = :quantity, w.is_active = 1 where w.id = :id")
-    void updateExportWareHouseifApprove(Integer quantity, Long id);
+    @Query("UPDATE WareHouse w SET w.is_active = :isActive where w.id = :id")
+    void updateEntryWareHouse(Integer isActive, Long id);
 
 }
