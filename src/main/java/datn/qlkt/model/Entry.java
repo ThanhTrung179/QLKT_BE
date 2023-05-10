@@ -21,18 +21,22 @@ public class Entry {
     private String note;
     @OneToMany(mappedBy = "entry", cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<WareHouse> wareHouse;
+    private Long moneyTotal;
+    private String creator;
     private Integer isActive;
 
     public Entry() {
     }
 
 
-    public Entry(Long id, String idEntry, Date inTime, String note, List<WareHouse> wareHouse,Integer isActive) {
+    public Entry(Long id, String idEntry, Date inTime, String note, List<WareHouse> wareHouse, String creator, Long moneyTotal,Integer isActive) {
         this.id = id;
         this.idEntry = idEntry;
         this.inTime = inTime;
         this.note = note;
         this.wareHouse = wareHouse;
         this.isActive = isActive;
+        this.creator = creator;
+        this.moneyTotal = moneyTotal;
     }
 }

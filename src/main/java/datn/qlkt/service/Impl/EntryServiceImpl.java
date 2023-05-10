@@ -1,6 +1,8 @@
 package datn.qlkt.service.Impl;
 
 import datn.qlkt.dto.dto.EntryDto;
+import datn.qlkt.dto.dto.WareHouseDto;
+import datn.qlkt.dto.dto.WareHouseExportDto;
 import datn.qlkt.dto.dtos.EntryFilter;
 import datn.qlkt.dto.request.EntryForm;
 import datn.qlkt.dto.request.WareHouseForm;
@@ -107,8 +109,12 @@ public class EntryServiceImpl implements EntryService {
     @Override
     @Transactional
     public void approveEntry(Integer isActive, Long id) throws Exception {
+        var optEntry = this.findById(id);
         if(isActive == 1) {
-            wareHouseRepository.updateExportWareHouseifApprove(isActive, id);
+            for (WareHouseDto wareHouseDto : optEntry.get().getWareHouse()) {
+                var idWareHouse = wareHouseDto.getId();
+                wareHouseRepository.updateExportWareHouseifApprove(isActive, idWareHouse);
+            }
             entryRepository.updateEntryActive(isActive, id);
         }
         else if (isActive == 2) {

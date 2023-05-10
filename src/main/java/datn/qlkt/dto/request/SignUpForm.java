@@ -14,6 +14,7 @@ public class SignUpForm {
     private Date workingday;
     private String email;
     private String password;
+    private String sex;
     private Set<String> roles;
 
     public SignUpForm() {

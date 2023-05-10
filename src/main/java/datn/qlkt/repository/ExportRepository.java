@@ -18,7 +18,8 @@ public interface ExportRepository extends JpaRepository<Export, Long> {
             "LEFT JOIN FETCH e.wareHouseExports w " +
             "LEFT JOIN FETCH w.product p " +
             "LEFT JOIN FETCH p.producers pr " +
-            "WHERE (:idExport IS NULL OR e.idExport LIKE %:idExport%) " +
+            "WHERE e.is_active in (0, 1) " +
+            "AND (:idExport IS NULL OR e.idExport LIKE %:idExport%) " +
             "AND (:nameProduct IS NULL OR p.productName LIKE %:nameProduct%) " +
             "AND (:nameProducer IS NULL OR pr.producerName LIKE %:nameProducer%) " +
             "AND (:startDate IS NULL OR :endDate IS NULL OR e.inTime BETWEEN :startDate AND :endDate)",
@@ -26,7 +27,8 @@ public interface ExportRepository extends JpaRepository<Export, Long> {
                     "LEFT JOIN e.wareHouseExports w " +
                     "LEFT JOIN w.product p " +
                     "LEFT JOIN p.producers pr " +
-                    "WHERE (:idExport IS NULL OR e.idExport LIKE %:idEntry%) " +
+                    "WHERE e.is_active in (0, 1) " +
+                    "AND (:idExport IS NULL OR e.idExport LIKE %:idEntry%) " +
                     "AND (:nameProduct IS NULL OR p.productName LIKE %:nameProduct%) " +
                     "AND (:nameProducer IS NULL OR pr.producerName LIKE %:nameProducer%) " +
                     "AND (:startDate IS NULL OR :endDate IS NULL OR e.inTime BETWEEN :startDate AND :endDate)")
@@ -36,19 +38,21 @@ public interface ExportRepository extends JpaRepository<Export, Long> {
             "LEFT JOIN FETCH e.wareHouseExports w " +
             "LEFT JOIN FETCH w.product p " +
             "LEFT JOIN FETCH p.producers pr " +
-            "WHERE (:idExport IS NULL OR e.idExport LIKE %:idExport%) " +
+            "WHERE e.is_active in (0, 1) " +
+            "AND (:idExport IS NULL OR e.idExport LIKE %:idExport%) " +
             "AND (:nameProduct IS NULL OR p.productName LIKE %:nameProduct%) " +
             "AND (:nameProducer IS NULL OR pr.producerName LIKE %:nameProducer%) ",
             countQuery = "SELECT COUNT(DISTINCT e) FROM Export e " +
                     "LEFT JOIN e.wareHouseExports w " +
                     "LEFT JOIN w.product p " +
                     "LEFT JOIN p.producers pr " +
-                    "WHERE (:idExport IS NULL OR e.idExport LIKE %:idExport%) " +
+                    "WHERE e.is_active in (0, 1) " +
+                    "AND (:idExport IS NULL OR e.idExport LIKE %:idExport%) " +
                     "AND (:nameProduct IS NULL OR p.productName LIKE %:nameProduct%) " +
                     "AND (:nameProducer IS NULL OR pr.producerName LIKE %:nameProducer%) ")
     Page<Export> getAllExportListNotDate(Pageable pageable, String nameProduct, String idExport, String nameProducer);
 
     @Modifying
-    @Query("UPDATE Export e SET e.isActive = :isActive where e.id = :id")
-    void updateExportActive(Integer isActive, Long id);
+    @Query("UPDATE Export e SET e.is_active = :is_active where e.id = :id")
+    void updateExportActive(Integer is_active, Long id);
 }

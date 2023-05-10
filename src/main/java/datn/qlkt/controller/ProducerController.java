@@ -4,6 +4,7 @@ import datn.qlkt.entities.ErrorCode;
 import datn.qlkt.entities.MyResponse;
 import datn.qlkt.model.Producer;
 import datn.qlkt.model.Product;
+import datn.qlkt.repository.ProducerRespository;
 import datn.qlkt.service.Impl.ProducerServiceImpl;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class ProducerController {
 
     @Autowired
     ProducerServiceImpl producerService;
+
+    @Autowired
+    ProducerRespository producerRespository;
 
 
     @GetMapping("/list-producer")
@@ -37,6 +41,18 @@ public class ProducerController {
         catch (Exception ex) {
             log.info(ex);
             return MyResponse.response(ErrorCode.CREATED_FAIL.getCode(), ErrorCode.CREATED_FAIL.getMsgError());
+        }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public MyResponse<?> deleteProducer(@PathVariable Long id) throws Exception{
+        try {
+            producerRespository.deleteById(id);
+            return MyResponse.response(ErrorCode.DELETED_OK.getCode(), ErrorCode.DELETED_OK.getMsgError());
+        }
+        catch (Exception ex) {
+            log.info(ex);
+            return MyResponse.response(ErrorCode.DELETED_FAIL.getCode(), ErrorCode.DELETED_FAIL.getMsgError());
         }
     }
 }

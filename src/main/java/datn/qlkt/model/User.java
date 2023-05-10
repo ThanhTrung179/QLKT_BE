@@ -58,13 +58,13 @@ public class User {
     private Date workingday;
     @CreatedDate
     private Date inTime = new Date();
-
-    private Integer isActive = 1;
+    private String sex;
+    private Integer isActive;
 
     public User() {
     }
 
-    public User(Long id, String name, String username, String email, String password, Set<Role> roles, Date birth, String address, Date workingday, Date inTime) {
+    public User(Long id, String name, String username, String email, String password, Set<Role> roles, Date birth, String address, Date workingday, Date inTime, String sex) {
         this.id = id;
         this.name = name;
         this.username = username;
@@ -75,6 +75,7 @@ public class User {
         this.address = address;
         this.workingday = workingday;
         this.inTime = inTime;
+        this.sex = sex;
     }
 
     public User(@NotBlank
@@ -88,6 +89,7 @@ public class User {
                  @Size(min = 0, max = 100)
                         String encode,
                 String address,
+                String sex,
                 Date birth,
                 Date workingday
                 ) {
@@ -96,6 +98,7 @@ public class User {
         this.email = email;
         this.password = encode;
         this.address = address;
+        this.sex = sex;
         this.birth = birth;
         this.workingday = workingday;
     }
