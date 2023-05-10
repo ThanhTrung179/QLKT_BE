@@ -113,7 +113,7 @@ public class EntryServiceImpl implements EntryService {
         if(isActive == 1) {
             for (WareHouseDto wareHouseDto : optEntry.get().getWareHouse()) {
                 var idWareHouse = wareHouseDto.getId();
-                wareHouseRepository.updateExportWareHouseifApprove(isActive, idWareHouse);
+                wareHouseRepository.updateEntryWareHouse(isActive, idWareHouse);
             }
             entryRepository.updateEntryActive(isActive, id);
         }

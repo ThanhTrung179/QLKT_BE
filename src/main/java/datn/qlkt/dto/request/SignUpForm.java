@@ -15,17 +15,19 @@ public class SignUpForm {
     private String email;
     private String password;
     private String sex;
+    private Integer isActive;
     private Set<String> roles;
 
     public SignUpForm() {
     }
 
-    public SignUpForm(String name, String username, String email, String password, Set<String> roles) {
+    public SignUpForm(String name, String username, String email, String password, Integer isActive, Set<String> roles) {
         this.name = name;
         this.username = username;
         this.email = email;
         this.password = password;
         this.roles = roles;
+        this.isActive = isActive;
     }
 
 
