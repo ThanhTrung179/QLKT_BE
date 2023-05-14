@@ -15,7 +15,7 @@ public interface ProducerService {
 
     public Producer save(Producer producer);
 
-    Page<?> searchProduct(ProducerFilter producerFilter) throws Exception;
+    Page<?> searchProducer(ProducerFilter producerFilter) throws Exception;
 
     Producer[] getAllProducer();
 }

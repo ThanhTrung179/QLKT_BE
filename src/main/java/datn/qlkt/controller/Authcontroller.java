@@ -24,6 +24,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -48,7 +51,14 @@ public class Authcontroller {
         if(userService.existsByEmail(singUpForm.getEmail())){
             return new ResponseEntity<>(new ResponseMessage("email đã tồn tại"), HttpStatus.OK);
         }
-        User user = new User(singUpForm.getName(), singUpForm.getUsername(), singUpForm.getEmail(), passwordEncoder.encode(singUpForm.getPassword()), singUpForm.getGender(), singUpForm.getPhone(), singUpForm.getAddress(), singUpForm.getBirth(),singUpForm.getWorkingday());
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = currentDate.format(formatter);
+        LocalDateTime now = LocalDateTime.now();
+        int minute = now.getMinute();
+        int hour = now.getHour();
+        var idUser = ("NV_" + formattedDate +hour+minute);
+        User user = new User(singUpForm.getName(), singUpForm.getUsername(), singUpForm.getEmail(), passwordEncoder.encode(singUpForm.getPassword()),singUpForm.getAddress(),singUpForm.getGender(),singUpForm.getPhone(),  singUpForm.getBirth(), idUser, singUpForm.getWorkingday());
         Set<String> strRoles = singUpForm.getRoles();
         Set<Role> roles = new HashSet<>();
         strRoles.forEach(role ->{

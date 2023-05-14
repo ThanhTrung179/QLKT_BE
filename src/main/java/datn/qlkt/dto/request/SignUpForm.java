@@ -16,6 +16,7 @@ public class SignUpForm {
     private String password;
     private String gender;
     private String phone;
+    private String idUser;
     private Integer isActive;
     private Set<String> roles;
 

@@ -60,12 +60,13 @@ public class User {
     private Date inTime = new Date();
     private String gender;
     private String phone;
+    private String idUser;
     private Integer isActive;
 
     public User() {
     }
 
-    public User(Long id, String name, String username, String email, String password, Set<Role> roles, Date birth, String address, Date workingday, Date inTime, String gender, String phone) {
+    public User(Long id, String name, String username, String email, String password, Set<Role> roles, Date birth, String address, Date workingday, Date inTime, String gender, String phone, String idUser) {
         this.id = id;
         this.name = name;
         this.username = username;
@@ -78,6 +79,7 @@ public class User {
         this.inTime = inTime;
         this.gender = gender;
         this.phone = phone;
+        this.idUser = idUser;
     }
 
     public User(@NotBlank
@@ -94,6 +96,7 @@ public class User {
                 String gender,
                 String phone,
                 Date birth,
+                String idUser,
                 Date workingday
                 ) {
         this.name = name;
@@ -104,6 +107,7 @@ public class User {
         this.gender = gender;
         this.birth = birth;
         this.phone = phone;
+        this.idUser = idUser;
         this.workingday = workingday;
     }
 }
