@@ -36,6 +36,7 @@ public class Product {
     @NotBlank
     @Size(min = 3, max = 500)
     private String regulations; //quy cach
+    private String price; //don gia
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "product_producer",
             joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "producer_id"))
@@ -44,7 +45,7 @@ public class Product {
     private Date inTime = new Date();
     private Integer isActive;
 
-    public Product(Long id, String productId, String productName, String concentration, String ingredients, String regulations, Set<Producer> producers, Date inTime, Integer isActive) {
+    public Product(Long id, String productId, String productName, String concentration, String ingredients, String regulations, Set<Producer> producers, Date inTime, Integer isActive, String price) {
         this.id = id;
         this.productId = productId;
         this.productName = productName;
@@ -53,6 +54,7 @@ public class Product {
         this.regulations = regulations;
         this.producers = producers;
         this.inTime = inTime;
+        this.price = price;
         this.isActive = isActive;
     }
 
@@ -66,16 +68,20 @@ public class Product {
     @NotBlank
     @Size(min = 3, max = 500) String ingredients, //hoat chat
     @NotBlank
-    @Size(min = 3, max = 500) String regulations
+    @Size(min = 3, max = 500) String regulations,
+            String price
     ) {
         this.productId = productId;
         this.productName = productName;
         this.concentration = concentration;
         this.ingredients = ingredients;
         this.regulations = regulations;
+        this.price = price;
     }
 
     public Product() {
 
     }
+
+
 }

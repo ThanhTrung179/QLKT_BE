@@ -15,6 +15,7 @@ import datn.qlkt.service.ProducerService;
 import datn.qlkt.service.ProductService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -45,7 +46,7 @@ public class ProductController {
     @PostMapping("/save")
     public MyResponse<?> saveProduct(@Valid @RequestBody ProductForm productform) throws Exception {
         try {
-            Product product = new Product(productform.getProductId(),productform.getProductName(), productform.getConcentration(), productform.getIngredients(), productform.getRegulations());
+            Product product = new Product(productform.getProductId(),productform.getProductName(), productform.getConcentration(), productform.getIngredients(), productform.getRegulations(), productform.getPrice());
             Set<Producer> producers = new HashSet<>();
             Producer producer = producerService.findByName(productform.getProducer()).orElseThrow(
                     ()-> new RuntimeException("Không tìm được NCC"));
@@ -76,6 +77,17 @@ public class ProductController {
     public MyResponse<?> findById(@PathVariable Long id) throws Exception {
         var product = productService.findById(id);
         return MyResponse.response(product);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public MyResponse<?> deleteId(@PathVariable Long id) throws Exception {
+        try {
+            productService.deleteProduct(id);
+            return MyResponse.response(ErrorCode.DELETED_OK.getCode(), ErrorCode.DELETED_OK.getMsgError());
+        }catch (Exception ex) {
+            return MyResponse.response(ErrorCode.DELETED_FAIL.getCode(),ErrorCode.DELETED_FAIL.getMsgError());
+
+        }
     }
 
 

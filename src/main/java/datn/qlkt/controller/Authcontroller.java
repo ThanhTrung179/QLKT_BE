@@ -48,7 +48,7 @@ public class Authcontroller {
         if(userService.existsByEmail(singUpForm.getEmail())){
             return new ResponseEntity<>(new ResponseMessage("email đã tồn tại"), HttpStatus.OK);
         }
-        User user = new User(singUpForm.getName(), singUpForm.getUsername(), singUpForm.getEmail(), passwordEncoder.encode(singUpForm.getPassword()), singUpForm.getSex(), singUpForm.getAddress(), singUpForm.getBirth(),singUpForm.getWorkingday());
+        User user = new User(singUpForm.getName(), singUpForm.getUsername(), singUpForm.getEmail(), passwordEncoder.encode(singUpForm.getPassword()), singUpForm.getGender(), singUpForm.getPhone(), singUpForm.getAddress(), singUpForm.getBirth(),singUpForm.getWorkingday());
         Set<String> strRoles = singUpForm.getRoles();
         Set<Role> roles = new HashSet<>();
         strRoles.forEach(role ->{

@@ -69,4 +69,14 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.save(product);
     }
 
+    @Override
+    public void deleteProduct(Long id) throws Exception {
+        var count = productRepository.countProductWareHouse(id);
+        if(count > 0) {
+            throw new Exception("Đã tồn tại trong kho");
+        }else {
+            productRepository.deleteById(id);
+        }
+    }
+
 }
