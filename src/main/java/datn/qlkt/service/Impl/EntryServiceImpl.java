@@ -50,6 +50,8 @@ public class EntryServiceImpl implements EntryService {
     public Entry save(EntryForm entryForm) throws Exception {
         Entry entry = new Entry();
         entry.setNote(entryForm.getNote());
+        entry.setCreator(entryForm.getCreator());
+        entry.setMoneyTotal(entryForm.getMoneyTotal());
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String formattedDate = currentDate.format(formatter);

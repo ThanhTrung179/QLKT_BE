@@ -71,10 +71,8 @@ public class ProductServiceImpl implements ProductService {
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String formattedDate = currentDate.format(formatter);
-        LocalDateTime now = LocalDateTime.now();
-        int minute = now.getMinute();
-        int hour = now.getHour();
-        product.setProductId("PNK_" + formattedDate +hour+minute);
+
+
         product.setIsActive(1);
         return productRepository.save(product);
     }

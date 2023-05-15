@@ -51,6 +51,8 @@ public class ExportServiceImpl implements ExportService {
     public void save(EntryForm entryForm) throws Exception {
         Export export = new Export();
         export.setNote(entryForm.getNote());
+        export.setCreator(entryForm.getCreator());
+        export.setMoneyTotal(entryForm.getMoneyTotal());
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String formattedDate = currentDate.format(formatter);

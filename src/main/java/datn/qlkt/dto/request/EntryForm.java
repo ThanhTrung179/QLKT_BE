@@ -23,7 +23,7 @@ public class EntryForm {
     public EntryForm(String note, WareHouseForm wareHouseForm, String creator, Long moneyTotal) {
         this.note = note;
         this.creator = creator;
-        this.moneyTotal =moneyTotal;
+        this.moneyTotal = moneyTotal;
         this.wareHouseForm = (List<WareHouseForm>) wareHouseForm;
     }
 }
