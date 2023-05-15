@@ -17,4 +17,6 @@ public interface ProductService {
     public Product updateProduct(ProductForm productForm , Long id) throws Exception;
 
     public Product save(Product product) throws Exception;
+
+    public void deleteProduct(Long id) throws Exception;
 }

@@ -14,17 +14,19 @@ public class ProductForm {
     private  String ingredients;
     private  String regulations;
     private String producer;
+    private String price;
 
     public ProductForm(){
 
     };
 
-    public ProductForm(String productId, String productName, String concentration, String ingredients, String regulations, String producer) {
+    public ProductForm(String productId, String productName, String concentration, String ingredients, String regulations, String producer, String price) {
         this.productId = productId;
         this.productName = productName;
         this.concentration = concentration;
         this.ingredients = ingredients;
         this.regulations = regulations;
         this.producer = producer;
+        this.price = price;
     }
 }

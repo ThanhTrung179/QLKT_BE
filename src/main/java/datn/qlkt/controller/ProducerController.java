@@ -1,5 +1,7 @@
 package datn.qlkt.controller;
 
+import datn.qlkt.dto.dtos.ProducerFilter;
+import datn.qlkt.dto.dtos.ProductFilter;
 import datn.qlkt.entities.ErrorCode;
 import datn.qlkt.entities.MyResponse;
 import datn.qlkt.model.Producer;
@@ -23,6 +25,12 @@ public class ProducerController {
 
     @Autowired
     ProducerRespository producerRespository;
+
+    @GetMapping("/search")
+    public MyResponse<?> searchProducer(ProducerFilter producerFilter) throws Exception {
+        var page = producerService.searchProducer(producerFilter);
+        return MyResponse.response(page);
+    }
 
 
     @GetMapping("/list-producer")

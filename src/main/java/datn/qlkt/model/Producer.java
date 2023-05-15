@@ -16,6 +16,7 @@ public class Producer {
     private Long id;
     @NaturalId
     @Column(length = 200)
+    private String idProducer;
     private String producerName;
     private String address;
     private String information;

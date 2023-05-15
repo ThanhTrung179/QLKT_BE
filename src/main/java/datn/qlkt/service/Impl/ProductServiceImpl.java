@@ -16,6 +16,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -65,8 +68,25 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product save(Product product) throws Exception {
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = currentDate.format(formatter);
+        LocalDateTime now = LocalDateTime.now();
+        int minute = now.getMinute();
+        int hour = now.getHour();
+        product.setProductId("PNK_" + formattedDate +hour+minute);
         product.setIsActive(1);
         return productRepository.save(product);
+    }
+
+    @Override
+    public void deleteProduct(Long id) throws Exception {
+        var count = productRepository.countProductWareHouse(id);
+        if(count > 0) {
+            throw new Exception("Đã tồn tại trong kho");
+        }else {
+            productRepository.deleteById(id);
+        }
     }
 
 }

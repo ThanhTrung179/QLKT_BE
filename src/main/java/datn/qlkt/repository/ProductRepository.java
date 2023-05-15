@@ -19,4 +19,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> getAllProductList(Pageable pageable,String productId, String productName,  String producers);
 
     Optional<Product> findByProductName(String productName);
+
+    @Query(value = "SELECT COUNT(p) FROM Product p LEFT JOIN Warehouse_product wp ON p.id = wp.product_id LEFT JOIN WareHouse w ON  wp.warehouser_id = w.id where p.id = :id AND w.quantityfix > 1")
+    Long countProductWareHouse(Long id);
 }
