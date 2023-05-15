@@ -74,7 +74,6 @@ public class ProductServiceImpl implements ProductService {
         LocalDateTime now = LocalDateTime.now();
         int minute = now.getMinute();
         int hour = now.getHour();
-        product.setProductId("PNK_" + formattedDate +hour+minute);
         product.setIsActive(1);
         return productRepository.save(product);
     }
