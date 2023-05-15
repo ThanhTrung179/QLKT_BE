@@ -16,7 +16,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "And (:productId IS NULL OR p.productId like %:productId%) "+
             "And (:producers IS NULL OR pe.producerName like %:producers%) "
     )
-    Page<Product> getAllProductList(Pageable pageable, String productName, String productId, String producers);
+    Page<Product> getAllProductList(Pageable pageable,String productId, String productName,  String producers);
 
     Optional<Product> findByProductName(String productName);
 }
