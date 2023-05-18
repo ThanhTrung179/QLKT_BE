@@ -21,9 +21,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT u FROM User u where u.isActive = 1" +
      "And (:name IS NULL OR u.name like %:name%) " +
-            "And (:email IS NULL OR u.email like %:email%) "
+            "And (:idUser IS NULL OR u.idUser like %:idUser%) "
     )
 
-    Page<User> getAllUserList(Pageable pageable, String name, String email);
+    Page<User> getAllUserList(Pageable pageable, String name, String idUser);
 
 }

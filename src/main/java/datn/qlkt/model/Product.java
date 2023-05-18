@@ -37,6 +37,15 @@ public class Product {
     @Size(min = 3, max = 500)
     private String regulations; //quy cach
     private String price; //don gia
+
+    private String medicinesUseFor; //su dung cho
+
+    private String sideEffects; //tac dung phu
+
+    private String dosage; //lieu dung
+
+    private String useMedicine; //cach dung
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "product_producer",
             joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "producer_id"))
@@ -45,7 +54,7 @@ public class Product {
     private Date inTime = new Date();
     private Integer isActive;
 
-    public Product(Long id, String productId, String productName, String concentration, String ingredients, String regulations, Set<Producer> producers, Date inTime, Integer isActive, String price) {
+    public Product(Long id, String productId, String productName, String concentration, String ingredients, String regulations, Set<Producer> producers, Date inTime, Integer isActive, String price, String medicinesUseFor, String sideEffects,String dosage, String useMedicine) {
         this.id = id;
         this.productId = productId;
         this.productName = productName;
@@ -56,6 +65,10 @@ public class Product {
         this.inTime = inTime;
         this.price = price;
         this.isActive = isActive;
+        this.medicinesUseFor = medicinesUseFor;
+        this.sideEffects = sideEffects;
+        this.dosage = dosage;
+        this.useMedicine = useMedicine;
     }
 
     public Product (
@@ -69,7 +82,11 @@ public class Product {
     @Size(min = 3, max = 500) String ingredients, //hoat chat
     @NotBlank
     @Size(min = 3, max = 500) String regulations,
-            String price
+            String price,
+            String medicinesUseFor,
+            String sideEffects,
+            String dosage,
+            String useMedicine
     ) {
         this.productId = productId;
         this.productName = productName;
@@ -77,6 +94,10 @@ public class Product {
         this.ingredients = ingredients;
         this.regulations = regulations;
         this.price = price;
+        this.medicinesUseFor = medicinesUseFor;
+        this.sideEffects = sideEffects;
+        this.dosage = dosage;
+        this.useMedicine = useMedicine;
     }
 
     public Product() {

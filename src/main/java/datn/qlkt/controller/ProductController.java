@@ -44,9 +44,9 @@ public class ProductController {
     }
 
     @PostMapping("/save")
-    public MyResponse<?> saveProduct(@Valid @RequestBody ProductForm productform) throws Exception {
+    public MyResponse<?> saveProduct( @RequestBody ProductForm productform) throws Exception {
         try {
-            Product product = new Product(productform.getProductId(),productform.getProductName(), productform.getConcentration(), productform.getIngredients(), productform.getRegulations(), productform.getPrice());
+            Product product = new Product(productform.getProductId(),productform.getProductName(), productform.getConcentration(), productform.getIngredients(), productform.getRegulations(), productform.getPrice(), productform.getMedicinesUseFor(), productform.getSideEffects(), productform.getDosage(), productform.getUseMedicine());
             Set<Producer> producers = new HashSet<>();
             Producer producer = producerService.findByName(productform.getProducer()).orElseThrow(
                     ()-> new RuntimeException("Không tìm được NCC"));

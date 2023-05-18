@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -56,8 +57,13 @@ public class ProductServiceImpl implements ProductService {
         product1.setProductId(productForm.getProductId());
         product1.setProductName(productForm.getProductName());
         product1.setConcentration(productForm.getConcentration());
+        product1.setPrice(productForm.getPrice());
         product1.setIngredients(productForm.getIngredients());
         product1.setRegulations(productForm.getRegulations());
+        product1.setDosage(productForm.getDosage());
+        product1.setMedicinesUseFor(productForm.getMedicinesUseFor());
+        product1.setSideEffects(productForm.getSideEffects());
+        product1.setUseMedicine(productForm.getUseMedicine());
         Set<Producer> producers = new HashSet<>();
         Producer producer = producerService.findByName(productForm.getProducer()).orElseThrow(
                 ()-> new RuntimeException("Không tìm được NCC"));
@@ -74,7 +80,7 @@ public class ProductServiceImpl implements ProductService {
         LocalDateTime now = LocalDateTime.now();
         int minute = now.getMinute();
         int hour = now.getHour();
-        product.setProductId("PNK_" + formattedDate +hour+minute);
+        product.setProductId("SP" + formattedDate +hour+minute);
         product.setIsActive(1);
         return productRepository.save(product);
     }

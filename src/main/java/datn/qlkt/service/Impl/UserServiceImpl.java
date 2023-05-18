@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
     public Page<User> searchUser(UserFilter userFilter) throws Exception{
         log.info("--------- search workname -----------");
         Pageable pageable = PageRequest.of(userFilter.page(), userFilter.size());
-        var result = userRepository.getAllUserList(pageable,userFilter.name(), userFilter.email());
+        var result = userRepository.getAllUserList(pageable,userFilter.name(), userFilter.idUser());
         return result;
     }
 
@@ -103,8 +103,12 @@ public class UserServiceImpl implements UserService {
         user1.setAddress(user.getAddress());
         user1.setBirth(user.getBirth());
         user1.setUsername(user.getUsername());
-        user1.setPassword(passwordEncoder.encode(user.getPassword()));
+        if(user.getPassword() != null){
+            user1.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         user1.setEmail(user.getEmail());
+        user1.setGender(user.getGender());
+        user1.setPhone(user.getPhone());
         user1.setName(user.getName());
         user1.setIsActive(user.getIsActive());
         return userRepository.save(user1);

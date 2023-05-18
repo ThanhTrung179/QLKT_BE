@@ -43,7 +43,7 @@ public class WareHouseServiceImpl implements WareHouseService {
         List<Integer> numberList = Arrays.stream(test.split(","))
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
-        var result = wareHouseRepository.getAllWareHouseList(pageable, wareHouseFilter.productId(), wareHouseFilter.productName(), numberList);
+        var result = wareHouseRepository.getAllWareHouseList(pageable, wareHouseFilter.productName(), wareHouseFilter.productId(), numberList);
         return result.map(wareHouse -> modelMapper.map(wareHouse, WareHouseDto.class));
     }
 

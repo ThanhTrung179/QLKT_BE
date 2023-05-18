@@ -23,7 +23,7 @@ public class SignUpForm {
     public SignUpForm() {
     }
 
-    public SignUpForm(String name, String username, String email, String password, Integer isActive, Set<String> roles, String gender, String phone) {
+    public SignUpForm(String name, String username, String email, String password,Integer isActive, Set<String> roles, String gender, String phone) {
         this.name = name;
         this.username = username;
         this.email = email;

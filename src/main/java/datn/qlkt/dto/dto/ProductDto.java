@@ -17,12 +17,18 @@ public class ProductDto {
     private String regulations;
     private Set<ProducerDto> producers;
     private Date inTime;
+    private String price;
+    private String medicinesUseFor;
+    private String sideEffects;
+    private String dosage;
+    private String useMedicine;
     private Integer isActive;
+
 
     public ProductDto() {
     }
 
-    public ProductDto(Long id, String productId, String productName, String concentration, String ingredients, String regulations, Set<ProducerDto> producers, Date inTime, Integer isActive) {
+    public ProductDto(Long id, String productId, String productName, String concentration, String ingredients, String regulations, Set<ProducerDto> producers, Date inTime, String price, String medicinesUseFor,String sideEffects,String dosage,String useMedicine, Integer isActive) {
         this.id = id;
         this.productId = productId;
         this.productName = productName;
@@ -31,6 +37,11 @@ public class ProductDto {
         this.regulations = regulations;
         this.producers = producers;
         this.inTime = inTime;
+        this.price = price;
+        this.medicinesUseFor = medicinesUseFor;
+        this.sideEffects = sideEffects;
+        this.dosage = dosage;
+        this.useMedicine = useMedicine;
         this.isActive = isActive;
     }
 }

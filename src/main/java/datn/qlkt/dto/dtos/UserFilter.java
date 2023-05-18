@@ -7,7 +7,7 @@ import lombok.Setter;
 
 public record UserFilter(
         String name,
-        String email,
+        String idUser,
         Integer page,
         Integer size
 ) {

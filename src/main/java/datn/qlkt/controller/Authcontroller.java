@@ -4,6 +4,8 @@ import datn.qlkt.dto.reponse.JwtResponse;
 import datn.qlkt.dto.reponse.ResponseMessage;
 import datn.qlkt.dto.request.SignInForm;
 import datn.qlkt.dto.request.SignUpForm;
+import datn.qlkt.entities.ErrorCode;
+import datn.qlkt.entities.MyResponse;
 import datn.qlkt.model.Role;
 import datn.qlkt.model.RoleName;
 import datn.qlkt.model.User;
@@ -11,6 +13,7 @@ import datn.qlkt.security.jwt.JwtProvider;
 import datn.qlkt.security.userprical.UserPrinciple;
 import datn.qlkt.service.Impl.RoleServiceImpl;
 import datn.qlkt.service.Impl.UserServiceImpl;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +35,7 @@ import java.util.Set;
 
 @RequestMapping("/api/auth")
 @RestController
+@Log4j2
 public class Authcontroller {
     @Autowired
     UserServiceImpl userService;
@@ -44,49 +48,55 @@ public class Authcontroller {
     @Autowired
     JwtProvider jwtProvider;
     @PostMapping("/signup")
-    public ResponseEntity<?> register(@Valid @RequestBody SignUpForm singUpForm) {
+    public MyResponse<?> register(@Valid @RequestBody SignUpForm singUpForm) {
         if(userService.existsByUsername(singUpForm.getUsername())) {
-            return new ResponseEntity<>(new ResponseMessage("Username đã tồn tại"), HttpStatus.OK);
+            return MyResponse.response(ErrorCode.CREATED_FAIL.getCode(), "username đã tồn tại");
         }
         if(userService.existsByEmail(singUpForm.getEmail())){
-            return new ResponseEntity<>(new ResponseMessage("email đã tồn tại"), HttpStatus.OK);
+            return MyResponse.response(ErrorCode.CREATED_FAIL.getCode(), "email đã tồn tại");
         }
-        LocalDate currentDate = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String formattedDate = currentDate.format(formatter);
-        LocalDateTime now = LocalDateTime.now();
-        int minute = now.getMinute();
-        int hour = now.getHour();
-        var idUser = ("NV_" + formattedDate +hour+minute);
-        User user = new User(singUpForm.getName(), singUpForm.getUsername(), singUpForm.getEmail(), passwordEncoder.encode(singUpForm.getPassword()),singUpForm.getAddress(),singUpForm.getGender(),singUpForm.getPhone(),  singUpForm.getBirth(), idUser, singUpForm.getWorkingday());
-        Set<String> strRoles = singUpForm.getRoles();
-        Set<Role> roles = new HashSet<>();
-        strRoles.forEach(role ->{
-            switch (role) {
-                case "admin":
-                    var test = RoleName.ADMIN;
-                    Role adminRole = roleService.findByName(RoleName.ADMIN).orElseThrow(
-                            ()-> new RuntimeException("Role not fount")
-                    );
-                    roles.add(adminRole);
-                    break;
-                case "pm":
-                    Role pmRole = roleService.findByName(RoleName.PM).orElseThrow(
-                        ()-> new RuntimeException("Role not fount")
-                    );
-                    roles.add(pmRole);
-                    break;
-                default:
-                    Role userRole = roleService.findByName(RoleName.USER).orElseThrow(
-                            ()-> new RuntimeException("Role not fount")
-                    );
-                    roles.add(userRole);
-            }
-        });
-        user.setRoles(roles);
-        user.setIsActive(1);
-        userService.save(user);
-        return  new ResponseEntity<>(new ResponseMessage("Create user success"), HttpStatus.OK);
+        try {
+            LocalDate currentDate = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String formattedDate = currentDate.format(formatter);
+            LocalDateTime now = LocalDateTime.now();
+            int minute = now.getMinute();
+            int hour = now.getHour();
+            var idUser = ("NV_" + formattedDate + hour + minute);
+            User user = new User(singUpForm.getName(), singUpForm.getUsername(), singUpForm.getEmail(), passwordEncoder.encode(singUpForm.getPassword()), singUpForm.getAddress(), singUpForm.getGender(), singUpForm.getPhone(), singUpForm.getBirth(), idUser, singUpForm.getWorkingday());
+            Set<String> strRoles = singUpForm.getRoles();
+            Set<Role> roles = new HashSet<>();
+            strRoles.forEach(role -> {
+                switch (role) {
+                    case "admin":
+                        var test = RoleName.ADMIN;
+                        Role adminRole = roleService.findByName(RoleName.ADMIN).orElseThrow(
+                                () -> new RuntimeException("Role not fount")
+                        );
+                        roles.add(adminRole);
+                        break;
+                    case "pm":
+                        Role pmRole = roleService.findByName(RoleName.PM).orElseThrow(
+                                () -> new RuntimeException("Role not fount")
+                        );
+                        roles.add(pmRole);
+                        break;
+                    default:
+                        Role userRole = roleService.findByName(RoleName.USER).orElseThrow(
+                                () -> new RuntimeException("Role not fount")
+                        );
+                        roles.add(userRole);
+                }
+            });
+            user.setRoles(roles);
+            user.setIsActive(1);
+            userService.save(user);
+            return MyResponse.response(ErrorCode.CREATED_OK.getCode(), ErrorCode.CREATED_OK.getMsgError());
+        }
+        catch (Exception e) {
+            log.info(e);
+            return MyResponse.response(ErrorCode.CREATED_FAIL.getCode(), "Thêm mới nhân viên thất bại");
+        }
     }
 
     @PostMapping("/signin")
