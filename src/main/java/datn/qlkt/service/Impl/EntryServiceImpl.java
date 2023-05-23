@@ -2,10 +2,11 @@ package datn.qlkt.service.Impl;
 
 import datn.qlkt.dto.dto.EntryDto;
 import datn.qlkt.dto.dto.WareHouseDto;
-import datn.qlkt.dto.dto.WareHouseExportDto;
 import datn.qlkt.dto.dtos.EntryFilter;
+import datn.qlkt.dto.dtos.SaleEntryFilter;
 import datn.qlkt.dto.request.EntryForm;
 import datn.qlkt.dto.request.WareHouseForm;
+import datn.qlkt.entities.SaleEntry;
 import datn.qlkt.model.Entry;
 import datn.qlkt.model.Product;
 import datn.qlkt.model.WareHouse;
@@ -13,17 +14,16 @@ import datn.qlkt.repository.EntryRepository;
 import datn.qlkt.repository.ProductRepository;
 import datn.qlkt.repository.WareHouseRepository;
 import datn.qlkt.service.EntryService;
-import datn.qlkt.service.WareHouseService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -58,14 +58,14 @@ public class EntryServiceImpl implements EntryService {
         LocalDateTime now = LocalDateTime.now();
         int minute = now.getMinute();
         int hour = now.getHour();
-        entry.setIdEntry("PNK_" + formattedDate +hour+minute);
+        entry.setIdEntry("PNK_" + formattedDate + hour + minute);
         entry.setIsActive(0);
         entryRepository.save(entry);
-        for(WareHouseForm wareHouseForm: entryForm.getWareHouseForm()){
+        for (WareHouseForm wareHouseForm : entryForm.getWareHouseForm()) {
             WareHouse wareHouse = new WareHouse();
             Set<Product> products = new HashSet<>();
             Product product = productRepository.findByProductName(wareHouseForm.getProduct()).orElseThrow(
-                    ()-> new RuntimeException("Không tìm được Sản phẩm"));
+                    () -> new RuntimeException("Không tìm được Sản phẩm"));
             products.add(product);
             wareHouse.setProduct(products);
             wareHouse.setExpiry(wareHouseForm.getExpiry());
@@ -83,8 +83,8 @@ public class EntryServiceImpl implements EntryService {
     public Optional<EntryDto> findById(Long id) {
         ModelMapper modelMapper = new ModelMapper();
         Optional<Entry> entry;
-         entry = entryRepository.findById(id);
-         return entry.map(entry1 -> modelMapper.map(entry1, EntryDto.class));
+        entry = entryRepository.findById(id);
+        return entry.map(entry1 -> modelMapper.map(entry1, EntryDto.class));
     }
 
     @Override
@@ -94,15 +94,14 @@ public class EntryServiceImpl implements EntryService {
         log.info("--------- search eNTRY  -----------");
         Pageable pageable = PageRequest.of(entryFilter.page(), entryFilter.size());
         Page<Entry> entries;
-        if(entryFilter.startDate() != null || entryFilter.endDate() != null) {
+        if (entryFilter.startDate() != null || entryFilter.endDate() != null) {
             entries = entryRepository.getAllEntryListNotDate(pageable, entryFilter.nameProduct(), entryFilter.idEntry(), entryFilter.nameProducer());
 
-        }
-        else {
+        } else {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date startDate = dateFormat.parse(entryFilter.startDate());
             Date endDate = dateFormat.parse(entryFilter.endDate());
-             entries = entryRepository.getAllEntryList(pageable, entryFilter.nameProduct(), entryFilter.idEntry(), entryFilter.nameProducer(), startDate, endDate);
+            entries = entryRepository.getAllEntryList(pageable, entryFilter.nameProduct(), entryFilter.idEntry(), entryFilter.nameProducer(), startDate, endDate);
         }
 
         return entries.map(entry -> modelMapper.map(entry, EntryDto.class));
@@ -112,18 +111,39 @@ public class EntryServiceImpl implements EntryService {
     @Transactional
     public void approveEntry(Integer isActive, Long id) throws Exception {
         var optEntry = this.findById(id);
-        if(isActive == 1) {
+        if (isActive == 1) {
             for (WareHouseDto wareHouseDto : optEntry.get().getWareHouse()) {
                 var idWareHouse = wareHouseDto.getId();
                 wareHouseRepository.updateEntryWareHouse(isActive, idWareHouse);
             }
             entryRepository.updateEntryActive(isActive, id);
-        }
-        else if (isActive == 2) {
+        } else if (isActive == 2) {
             entryRepository.updateEntryActive(isActive, id);
         }
     }
 
+
+    public Page<EntryDto> saleEntryUser(SaleEntryFilter saleEntryFilter) throws ParseException {
+        ModelMapper modelMapper = new ModelMapper();
+        log.info("--------- search eNTRY  -----------");
+        Pageable pageable = PageRequest.of(saleEntryFilter.page(), saleEntryFilter.size());
+        Page<Entry> entries;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate = dateFormat.parse(saleEntryFilter.startDate());
+        Date endDate = dateFormat.parse(saleEntryFilter.endDate());
+        entries = entryRepository.getAllEntrySaleList(pageable, saleEntryFilter.nameProduct(), saleEntryFilter.idEntry(), saleEntryFilter.nameProducer(), saleEntryFilter.creator(), startDate, endDate);
+        return entries.map(entry -> modelMapper.map(entry, EntryDto.class));
+    }
+    @Override
+    public SaleEntry saleEntry(SaleEntryFilter saleEntryFilter) throws ParseException {
+        SaleEntry saleEntry = new SaleEntry();
+        saleEntry.setEntryDto(this.saleEntryUser(saleEntryFilter));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate = dateFormat.parse(saleEntryFilter.startDate());
+        Date endDate = dateFormat.parse(saleEntryFilter.endDate());
+        saleEntry.setTotalAmount(entryRepository.calculateTotalMoney(saleEntryFilter.nameProduct(), saleEntryFilter.idEntry(), saleEntryFilter.nameProducer(), saleEntryFilter.creator(), startDate, endDate));
+        return saleEntry;
+    }
 
 
 }

@@ -5,8 +5,12 @@ import datn.qlkt.dto.dto.ExportDto;
 import datn.qlkt.dto.dto.WareHouseExportDto;
 import datn.qlkt.dto.dtos.EntryFilter;
 import datn.qlkt.dto.dtos.ExportFilter;
+import datn.qlkt.dto.dtos.SaleEntryFilter;
+import datn.qlkt.dto.dtos.SaleExportFilter;
 import datn.qlkt.dto.request.EntryForm;
 import datn.qlkt.dto.request.WareHouseForm;
+import datn.qlkt.entities.SaleEntry;
+import datn.qlkt.entities.SaleExport;
 import datn.qlkt.model.Entry;
 import datn.qlkt.model.Export;
 import datn.qlkt.model.Product;
@@ -23,6 +27,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -139,6 +144,29 @@ public class ExportServiceImpl implements ExportService {
         }
 
 
+    }
+
+    public Page<ExportDto> saleExportUser(SaleExportFilter saleExportFilter) throws ParseException {
+        ModelMapper modelMapper = new ModelMapper();
+        log.info("--------- search eNTRY  -----------");
+        Pageable pageable = PageRequest.of(saleExportFilter.page(), saleExportFilter.size());
+        Page<Export> entries;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate = dateFormat.parse(saleExportFilter.startDate());
+        Date endDate = dateFormat.parse(saleExportFilter.endDate());
+        entries = exportRepository.getAllSaleExportList(pageable, saleExportFilter.nameProduct(), saleExportFilter.idExport(), saleExportFilter.nameProducer(), saleExportFilter.creator(), startDate, endDate);
+        return entries.map(export -> modelMapper.map(export, ExportDto.class));
+    }
+
+    @Override
+    public SaleExport saleExport(SaleExportFilter saleExportFilter) throws ParseException {
+        SaleExport saleExport = new SaleExport();
+        saleExport.setExportDto(this.saleExportUser(saleExportFilter));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate = dateFormat.parse(saleExportFilter.startDate());
+        Date endDate = dateFormat.parse(saleExportFilter.endDate());
+        saleExport.setTotalAmount(exportRepository.calculateTotalMoney(saleExportFilter.nameProduct(), saleExportFilter.idExport(), saleExportFilter.nameProducer(), saleExportFilter.creator(), startDate, endDate));
+        return null;
     }
 
 }

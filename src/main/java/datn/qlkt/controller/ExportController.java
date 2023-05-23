@@ -2,6 +2,7 @@ package datn.qlkt.controller;
 
 import datn.qlkt.dto.dtos.EntryFilter;
 import datn.qlkt.dto.dtos.ExportFilter;
+import datn.qlkt.dto.dtos.SaleExportFilter;
 import datn.qlkt.dto.request.EntryForm;
 import datn.qlkt.entities.ErrorCode;
 import datn.qlkt.entities.MyResponse;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.ParseException;
 
 @Log4j2
 @RestController
@@ -57,5 +59,10 @@ public class ExportController {
             log.info(ex);
             return MyResponse.response(ErrorCode.APPROVE_FAIL.getCode(), ErrorCode.APPROVE_FAIL.getMsgError());
         }
+    }
+
+    @GetMapping("/sale")
+    public MyResponse<?> saleExportUser(SaleExportFilter saleExportFilter) throws ParseException {
+        return MyResponse.response(exportService.saleExport(saleExportFilter));
     }
 }
