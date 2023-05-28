@@ -166,7 +166,7 @@ public class ExportServiceImpl implements ExportService {
         Date startDate = dateFormat.parse(saleExportFilter.startDate());
         Date endDate = dateFormat.parse(saleExportFilter.endDate());
         saleExport.setTotalAmount(exportRepository.calculateTotalMoney(saleExportFilter.nameProduct(), saleExportFilter.idExport(), saleExportFilter.nameProducer(), saleExportFilter.creator(), startDate, endDate));
-        return null;
+        return saleExport;
     }
 
 }
