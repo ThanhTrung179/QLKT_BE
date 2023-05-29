@@ -65,4 +65,10 @@ public class WareHouseController {
         var warehouser = wareHouseService.findById(id);
         return MyResponse.response(warehouser);
     }
+
+    @GetMapping("/test")
+    public MyResponse<?> updateStatusDate(){
+        wareHouseService.updateStatusDate();
+        return MyResponse.response("ok");
+    }
 }

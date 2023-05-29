@@ -16,11 +16,12 @@ public class WareHouseDto {
     private Date intime;
     private Integer isActive;
     private Integer quantity;
+    private Long statusDate;
 
     public WareHouseDto() {
     }
 
-    public WareHouseDto(Long id, Set<ProductDto> product, Date expiry, Date manufactureDate, Date intime, Integer isActive, Integer quantity) {
+    public WareHouseDto(Long id, Set<ProductDto> product, Date expiry, Date manufactureDate, Date intime, Integer isActive, Integer quantity, Long statusDate) {
         this.id = id;
         this.product = product;
         this.expiry = expiry;
@@ -28,5 +29,6 @@ public class WareHouseDto {
         this.intime = intime;
         this.isActive = isActive;
         this.quantity = quantity;
+        this.statusDate = statusDate;
     }
 }

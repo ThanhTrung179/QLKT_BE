@@ -14,12 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -65,6 +64,16 @@ public class WareHouseServiceImpl implements WareHouseService {
     @Override
     public WareHouse save(WareHouse wareHouse) throws Exception {
         return wareHouseRepository.save(wareHouse);
+    }
+
+    @Scheduled(fixedRate = 1*60*1000)
+    @Transactional
+    public void updateStatusDate(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR, 5);
+
+        Date currentDateMinus5Days = calendar.getTime();
+        wareHouseRepository.updateStatusDateForExpiredWarehouses(currentDateMinus5Days);
     }
 
 

@@ -34,6 +34,7 @@ public class WareHouse {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "entry_id")
     private Entry entry;
+    private Long statusDate;
 
 
     public WareHouse(Long id, Set<Product> product, Date expiry, Date manufactureDate, Date intime, Integer is_active, Integer quantity, Integer quantityfix, Entry entry) {
