@@ -60,7 +60,7 @@ public interface EntryRepository extends JpaRepository<Entry, Long> {
             "And (:idEntry IS NULL OR e.idEntry LIKE %:idEntry%) " +
             "AND (:nameProduct IS NULL OR p.productName LIKE %:nameProduct%) " +
             "AND (:nameProducer IS NULL OR pr.producerName LIKE %:nameProducer%) " +
-            "AND (:creator IS NULL OR e.creator LIKE %:creator%) " +
+            "AND (:creator IS NULL OR e.creator = :creator) " +
             "AND (:startDate IS NULL OR :endDate IS NULL OR e.inTime BETWEEN :startDate AND :endDate)",
             countQuery = "SELECT COUNT(DISTINCT e) FROM Entry e " +
                     "LEFT JOIN e.wareHouse w " +
@@ -70,7 +70,7 @@ public interface EntryRepository extends JpaRepository<Entry, Long> {
                     "And (:idEntry IS NULL OR e.idEntry LIKE %:idEntry%) " +
                     "AND (:nameProduct IS NULL OR p.productName LIKE %:nameProduct%) " +
                     "AND (:nameProducer IS NULL OR pr.producerName LIKE %:nameProducer%) " +
-                    "AND (:creator IS NULL OR e.creator LIKE %:creator%) " +
+                    "AND (:creator IS NULL OR e.creator = :creator) " +
                     "AND (:startDate IS NULL OR :endDate IS NULL OR e.inTime BETWEEN :startDate AND :endDate)")
     Page<Entry> getAllEntrySaleList(Pageable pageable, String nameProduct, String idEntry, String nameProducer, String creator, Date startDate, Date endDate);
 
@@ -82,7 +82,7 @@ public interface EntryRepository extends JpaRepository<Entry, Long> {
             "AND (:idEntry IS NULL OR e.idEntry LIKE %:idEntry%) " +
             "AND (:nameProduct IS NULL OR p.productName LIKE %:nameProduct%) " +
             "AND (:nameProducer IS NULL OR pr.producerName LIKE %:nameProducer%) " +
-            "AND (:creator IS NULL OR e.creator LIKE %:creator%) " +
+            "AND (:creator IS NULL OR e.creator LIKE :creator) " +
             "AND (:startDate IS NULL OR :endDate IS NULL OR e.inTime BETWEEN :startDate AND :endDate)")
     Long calculateTotalMoney(String nameProduct, String idEntry, String nameProducer, String creator, Date startDate, Date endDate);
     @Modifying
