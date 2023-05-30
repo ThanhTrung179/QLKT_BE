@@ -22,19 +22,19 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotBlank
-    @Size(min = 3, max = 50)
+
     private String productId;
     @NotBlank
-    @Size(min = 3, max = 50)
+
     private String productName;
     @NotBlank
-    @Size(min = 3, max = 50)
+
     private String concentration; //ham luong thuoc
     @NotBlank
-    @Size(min = 3, max = 500)
+
     private String ingredients; //hoat chat
     @NotBlank
-    @Size(min = 3, max = 500)
+
     private String regulations; //quy cach
     private String price; //don gia
 
@@ -73,15 +73,15 @@ public class Product {
 
     public Product (
             @NotBlank
-            @Size(min = 3, max = 50) String productId,
+            String productId,
             @NotBlank
-            @Size(min = 3, max = 50) String productName,
+            String productName,
     @NotBlank
-    @Size(min = 3, max = 50) String concentration, //ham luong thuoc
+     String concentration, //ham luong thuoc
     @NotBlank
-    @Size(min = 3, max = 500) String ingredients, //hoat chat
+     String ingredients, //hoat chat
     @NotBlank
-    @Size(min = 3, max = 500) String regulations,
+     String regulations,
             String price,
             String medicinesUseFor,
             String sideEffects,
