@@ -61,7 +61,7 @@ public interface ExportRepository extends JpaRepository<Export, Long> {
             "AND (:idExport IS NULL OR e.idExport LIKE %:idExport%) " +
             "AND (:nameProduct IS NULL OR p.productName LIKE %:nameProduct%) " +
             "AND (:nameProducer IS NULL OR pr.producerName LIKE %:nameProducer%) " +
-            "AND (:creator IS NULL OR e.creator = :creator) " +
+            "AND (:creator IS NULL OR e.creator = :creator OR :creator = '') " +
             "AND (:startDate IS NULL OR :endDate IS NULL OR e.inTime BETWEEN :startDate AND :endDate)",
             countQuery = "SELECT COUNT(DISTINCT e) FROM Export e " +
                     "LEFT JOIN e.wareHouseExports w " +
@@ -71,7 +71,7 @@ public interface ExportRepository extends JpaRepository<Export, Long> {
                     "AND (:idExport IS NULL OR e.idExport LIKE %:idEntry%) " +
                     "AND (:nameProduct IS NULL OR p.productName LIKE %:nameProduct%) " +
                     "AND (:nameProducer IS NULL OR pr.producerName LIKE %:nameProducer%) " +
-                    "AND (:creator IS NULL OR e.creator = :creator) " +
+                    "AND (:creator IS NULL OR e.creator = :creator OR :creator = '') " +
                     "AND (:startDate IS NULL OR :endDate IS NULL OR e.inTime BETWEEN :startDate AND :endDate)")
     Page<Export> getAllSaleExportList(Pageable pageable, String nameProduct, String idExport, String nameProducer,String creator, Date startDate, Date endDate);
 
@@ -83,7 +83,7 @@ public interface ExportRepository extends JpaRepository<Export, Long> {
             "AND (:idExport IS NULL OR e.idExport LIKE %:idExport%) " +
             "AND (:nameProduct IS NULL OR p.productName LIKE %:nameProduct%) " +
             "AND (:nameProducer IS NULL OR pr.producerName LIKE %:nameProducer%) " +
-            "AND (:creator IS NULL OR e.creator = :creator) " +
+            "AND (:creator IS NULL OR e.creator = :creator OR :creator = '') " +
             "AND (:startDate IS NULL OR :endDate IS NULL OR e.inTime BETWEEN :startDate AND :endDate)")
     Long calculateTotalMoney(String nameProduct, String idExport, String nameProducer, String creator, Date startDate, Date endDate);
     @Modifying
