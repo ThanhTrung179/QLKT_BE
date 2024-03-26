@@ -57,7 +57,7 @@ public interface ExportRepository extends JpaRepository<Export, Long> {
             "LEFT JOIN FETCH e.wareHouseExports w " +
             "LEFT JOIN FETCH w.product p " +
             "LEFT JOIN FETCH p.producers pr " +
-            "WHERE e.is_active in (0, 1) " +
+            "WHERE e.is_active in (1) " +
             "AND (:idExport IS NULL OR e.idExport LIKE %:idExport%) " +
             "AND (:nameProduct IS NULL OR p.productName LIKE %:nameProduct%) " +
             "AND (:nameProducer IS NULL OR pr.producerName LIKE %:nameProducer%) " +
@@ -67,7 +67,7 @@ public interface ExportRepository extends JpaRepository<Export, Long> {
                     "LEFT JOIN e.wareHouseExports w " +
                     "LEFT JOIN w.product p " +
                     "LEFT JOIN p.producers pr " +
-                    "WHERE e.is_active in (0, 1) " +
+                    "WHERE e.is_active in (1) " +
                     "AND (:idExport IS NULL OR e.idExport LIKE %:idEntry%) " +
                     "AND (:nameProduct IS NULL OR p.productName LIKE %:nameProduct%) " +
                     "AND (:nameProducer IS NULL OR pr.producerName LIKE %:nameProducer%) " +
@@ -79,7 +79,7 @@ public interface ExportRepository extends JpaRepository<Export, Long> {
             "LEFT JOIN FETCH e.wareHouseExports w " +
             "LEFT JOIN FETCH w.product p " +
             "LEFT JOIN FETCH p.producers pr " +
-            "WHERE e.is_active in (0, 1) " +
+            "WHERE e.is_active in (1) " +
             "AND (:idExport IS NULL OR e.idExport LIKE %:idExport%) " +
             "AND (:nameProduct IS NULL OR p.productName LIKE %:nameProduct%) " +
             "AND (:nameProducer IS NULL OR pr.producerName LIKE %:nameProducer%) " +

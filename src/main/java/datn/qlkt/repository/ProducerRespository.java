@@ -13,6 +13,8 @@ import java.util.Optional;
 public interface ProducerRespository extends JpaRepository<Producer, Long> {
     Optional<Producer> findByProducerName(String producerName);
 
+    Optional<Producer> findByAddress(String address);
+
     @Query(value = "SELECT p from Producer p where p.is_active = 1 " +
             "AND (:producerName IS NULL OR p.producerName like %:producerName%) " +
             "AND (:idProducer IS NULL OR p.idProducer like %:idProducer%) ")

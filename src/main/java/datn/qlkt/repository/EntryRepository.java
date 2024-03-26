@@ -56,7 +56,7 @@ public interface EntryRepository extends JpaRepository<Entry, Long> {
             "LEFT JOIN FETCH e.wareHouse w " +
             "LEFT JOIN FETCH w.product p " +
             "LEFT JOIN FETCH p.producers pr " +
-            "WHERE e.isActive in (0, 1) " +
+            "WHERE e.isActive in (1) " +
             "And (:idEntry IS NULL OR e.idEntry LIKE %:idEntry%) " +
             "AND (:nameProduct IS NULL OR p.productName LIKE %:nameProduct%) " +
             "AND (:nameProducer IS NULL OR pr.producerName LIKE %:nameProducer%) " +
@@ -66,7 +66,7 @@ public interface EntryRepository extends JpaRepository<Entry, Long> {
                     "LEFT JOIN e.wareHouse w " +
                     "LEFT JOIN w.product p " +
                     "LEFT JOIN p.producers pr " +
-                    "WHERE e.isActive in (0, 1) " +
+                    "WHERE e.isActive in (1) " +
                     "And (:idEntry IS NULL OR e.idEntry LIKE %:idEntry%) " +
                     "AND (:nameProduct IS NULL OR p.productName LIKE %:nameProduct%) " +
                     "AND (:nameProducer IS NULL OR pr.producerName LIKE %:nameProducer%) " +
@@ -78,7 +78,7 @@ public interface EntryRepository extends JpaRepository<Entry, Long> {
             "LEFT JOIN FETCH e.wareHouse w " +
             "LEFT JOIN FETCH w.product p " +
             "LEFT JOIN FETCH p.producers pr " +
-            "WHERE e.isActive in (0, 1) " +
+            "WHERE e.isActive in (1) " +
             "AND (:idEntry IS NULL OR e.idEntry LIKE %:idEntry%) " +
             "AND (:nameProduct IS NULL OR p.productName LIKE %:nameProduct%) " +
             "AND (:nameProducer IS NULL OR pr.producerName LIKE %:nameProducer%) " +

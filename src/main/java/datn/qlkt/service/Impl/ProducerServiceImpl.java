@@ -30,6 +30,10 @@ public class ProducerServiceImpl implements ProducerService {
         return producerRespository.findByProducerName(producerName);
     }
 
+    public Optional<Producer> findByAddress(String address) {
+        return producerRespository.findByAddress(address);
+    }
+
     public Producer save(Producer producer) {
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
